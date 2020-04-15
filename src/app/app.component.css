@@ -1,0 +1,86 @@
+h1 {
+    font-size: 2.2em;
+    color: #999;
+    margin-top: 0;
+    margin-bottom: 0;
+    float: left;
+    padding-top: 50px;
+    padding-left: 50px;
+  }
+  h2 {
+    font-size: 2em;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  nav {
+    /*float: right;*/
+    text-align: center;
+    width: 100%;
+  }
+  nav a {
+    font-family: 'Josefin Sans', sans-serif;
+    padding: 5px 10px;
+    text-decoration: none;
+    margin-top: 10px;
+    background-color: #eee;
+    border-radius: 4px;
+    font-size: 20px;
+  }
+  nav a:visited, a:link {
+    color: #607D8B;
+  }
+  nav a:hover {
+    color: #039be5;
+    background-color: #CFD8DC;
+  }
+  nav a.active {
+    color: #039be5;
+  }
+  
+  .logocontainer {
+    /*float:left;*/
+    /*margin-top: 25px;*/
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    display: block;
+    margin-bottom: 30px;
+  }
+  
+  .logo {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: bold;
+    color: black;
+    font-size: 40px;
+    margin-top: -30px;
+  }
+  
+  .logosub {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: bold;
+    color: black;
+    font-size: 16px;
+    margin-top: -30px;
+  }
+  
+  .header {
+    background-color:#ececed;
+    height:150px;
+    width:100%;
+    padding-top:15px;  
+  }
+  
+  .footer {
+      background-color:#ececed;
+      font-size: 14px;
+      font-family: 'Nunito', sans-serif;;
+      text-align: center;
+      position: fixed; 
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 24px;
+      padding-top: 8px;
+      margin-top:25px;
+      color: black;
+  }

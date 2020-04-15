@@ -1,0 +1,27 @@
+<div class="container">
+
+    <mat-spinner *ngIf="isLoading" class="loading-spinner" ></mat-spinner>
+    
+    <div *ngIf="professionalDetail">
+        
+        <div>
+            <p style="float:left;">
+            {{professionalDetail.title}}
+            </p>
+
+            <button style="float:right;" (click)="goBack()">X</button>
+        </div>
+
+        <div class="imagecontainer">
+            <img class="mat-card-image-base" *ngFor="let image of images" [attr.src]="'assets/images/high/'+image+'.png'" />
+        </div>
+        
+        <div>
+            <p>
+            {{professionalDetail.description}}
+            </p>
+        </div>
+        
+    </div>
+    
+</div>
