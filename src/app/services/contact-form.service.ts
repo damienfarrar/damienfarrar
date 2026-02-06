@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 import { ContactForm }            from '../models/contact-form';
 
@@ -8,13 +9,12 @@ export class ContactFormService
 {
     private contactFormUrl = 'https://api.damienfarrar.com/portfolio/contact/submit';  // URL to web api
     
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
     submitForm(contactForm: ContactForm): Promise<boolean>
     {
-        return this.http.post(this.contactFormUrl, contactForm)
-                .toPromise()
-                .then(response => response.json() == null)
+        return firstValueFrom(this.http.post(this.contactFormUrl, contactForm))
+                .then(response => response == null)
                 .catch(this.handleError);
     }
 

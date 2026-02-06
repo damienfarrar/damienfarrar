@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 import { ProfessionalDetail } from '../models/professional-detail';
 
@@ -8,15 +9,14 @@ export class ProfessionalExperienceService
 {
     private professionalExperienceUrl = 'https://api.damienfarrar.com/portfolio/professionalexperience/getprofessionalexperience';  // URL to web api
     
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
     getProfessionalExperience(): Promise<ProfessionalDetail[]>
     {
-        return this.http.get(this.professionalExperienceUrl)
-                .toPromise()
+        return firstValueFrom(this.http.get<any>(this.professionalExperienceUrl))
                 .then(response => 
                 {
-                    return response.json().Data.Items.sort(function(a: ProfessionalDetail, b: ProfessionalDetail) 
+                    return response.Data.Items.sort(function(a: ProfessionalDetail, b: ProfessionalDetail)
                     { 
                         return a.orderId - b.orderId;
                     }) as ProfessionalDetail[];
@@ -32,9 +32,8 @@ export class ProfessionalExperienceService
 
     getProfessionalExperienceById(id: number): Promise<ProfessionalDetail>
     {
-        return this.http.post(this.professionalExperienceUrl, {id: id})
-                .toPromise()
-                .then(response => response.json().Data.Items[0] as ProfessionalDetail)
+        return firstValueFrom(this.http.post<any>(this.professionalExperienceUrl, {id: id}))
+                .then(response => response.Data.Items[0] as ProfessionalDetail)
                 .catch(this.handleError);
                     
     }

@@ -1,9 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
-import { MatInputModule, MatProgressSpinnerModule, MatCardModule, MatButtonModule }       from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -28,7 +31,7 @@ import { ContactFormService } from './services/contact-form.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     AppRoutingModule,
     MatInputModule,
     MatProgressSpinnerModule,
