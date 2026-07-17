@@ -34,5 +34,56 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Later phases add: e2e + axe (playwright),
-      # Lighthouse budgets (median-of-3, tolerant thresholds — see plan §1/§6).
+  # Deterministic by design: no service keys in CI, so email uses the dev
+  # stub, KV features hide, and GitHub tiles degrade — tests assert the
+  # site works in exactly that state.
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: npm run build
+
+      - name: E2E + axe
+        run: npm run test:e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: test-results/
+          retention-days: 7
+
+  # Tolerant budgets (plan §1): scores are run-to-run noisy, so we take the
+  # median of 3 and hard-fail only below performance 0.90; the 95+ targets
+  # surface as warnings, not pipeline failures.
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Lighthouse budgets
+        run: npx lhci autorun
