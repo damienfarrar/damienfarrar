@@ -1,0 +1,9 @@
+{
+  "name": "Damien Farrar",
+  "tagline": "Full-stack engineer — ten years in production.",
+  "location": "Melbourne, Australia",
+  "bio": "I design and build web software end to end — ten-plus years across the stack, with a background in design. I care about documented decisions, boring reliable infrastructure, and shipping things that keep working after the demo.",
+  "socials": {
+    "github": "https://github.com/damienfarrar"
+  }
+}

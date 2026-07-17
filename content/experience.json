@@ -1,0 +1,42 @@
+{
+  "roles": [
+    {
+      "company": "Enterprise SaaS company (placeholder)",
+      "title": "Lead Engineer",
+      "start": "2024",
+      "end": null,
+      "summary": "Placeholder — technical leadership across a product team: architecture, ADRs, delivery ownership, mentoring.",
+      "highlights": [
+        "Placeholder highlight — real history lands with the content pass."
+      ],
+      "tech": ["react", "typescript", "aws"]
+    },
+    {
+      "company": "Digital consultancy (placeholder)",
+      "title": "Senior Full-Stack Engineer",
+      "start": "2019",
+      "end": "2024",
+      "summary": "Placeholder — AWS at production scale, Terraform, CI/CD, Next.js and TypeScript end to end.",
+      "highlights": [],
+      "tech": ["aws", "terraform", "node", "next.js"]
+    },
+    {
+      "company": "Media company (placeholder)",
+      "title": "Full-Stack Developer",
+      "start": "2014",
+      "end": "2019",
+      "summary": "Placeholder — Node APIs, Angular, automated testing, ITIL and agile delivery.",
+      "highlights": [],
+      "tech": ["node", "angular", "sql"]
+    },
+    {
+      "company": "Design studio (placeholder)",
+      "title": "Designer who shipped code",
+      "start": "2008",
+      "end": "2014",
+      "summary": "Placeholder — design practice and front-end builds; programming arrived as a patch and never left.",
+      "highlights": [],
+      "tech": ["html", "css", "javascript"]
+    }
+  ]
+}

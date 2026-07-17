@@ -25,11 +25,14 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Unit tests
+        run: npm run test
+
       - name: Typecheck
         run: npm run typecheck
 
       - name: Build
         run: npm run build
 
-      # Later phases add: unit tests (vitest), e2e + axe (playwright),
+      # Later phases add: e2e + axe (playwright),
       # Lighthouse budgets (median-of-3, tolerant thresholds — see plan §1/§6).
