@@ -42,12 +42,20 @@ npm ci
 npm run dev       # http://localhost:3000
 ```
 
-Other scripts: `npm run build` · `npm run lint` · `npm run typecheck` · `npm run format`
+Other scripts: `npm run build` · `npm run lint` · `npm run typecheck` ·
+`npm run test` · `npm run format`
+
+Live features (contact email, rate limiting, view counters, GitHub tiles)
+are optional by environment — see [.env.example](.env.example). Without
+keys, each degrades gracefully and the site still runs.
 
 ## Status
 
-**Phase 1 — scaffold.** Build phases and estimates in the
-[plan, §7](docs/REFRESH_PLAN.md#7-build-phases). The previous Angular 7
-implementation lives in git history (`development` branch) —
-[ADR-0001](docs/adr/0001-rebuild-not-upgrade.md) explains why it was replaced
-rather than upgraded.
+**Phases 1–5 done** — scaffold, design system ("ops console" direction),
+typed content pipeline, pages + SEO, and the contact/live-data layer.
+**Phase 6 (quality pass + launch) remains**: e2e + axe, Lighthouse budgets
+in CI, real content, secrets-history scan, DNS cutover. Build phases and
+estimates in the [plan, §7](docs/REFRESH_PLAN.md#7-build-phases). The
+previous Angular 7 implementation lives in git history (`development`
+branch) — [ADR-0001](docs/adr/0001-rebuild-not-upgrade.md) explains why it
+was replaced rather than upgraded.
