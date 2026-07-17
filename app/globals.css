@@ -2,14 +2,14 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is([data-theme="dark"] *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-barlow);
+  --font-mono: var(--font-martian-mono);
+  --font-heading: var(--font-chakra-petch);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -27,6 +27,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-success: var(--success);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -48,73 +49,81 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/*
+ * "The ops console" — approved Phase 2 direction.
+ * Light = day ops (pale instrument grey, burnt amber);
+ * dark = night ops (blue-tinted slate, CRT amber).
+ * --success is semantic status color only — never decoration.
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #eef0f2;
+  --foreground: #1b2229;
+  --card: #fafbfb;
+  --card-foreground: #1b2229;
+  --popover: #fafbfb;
+  --popover-foreground: #1b2229;
+  --primary: #a35b00;
+  --primary-foreground: #fafbfb;
+  --secondary: #e2e6e9;
+  --secondary-foreground: #1b2229;
+  --muted: #e2e6e9;
+  --muted-foreground: #5c6875;
+  --accent: #e2e6e9;
+  --accent-foreground: #1b2229;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --success: #1e7d4f;
+  --border: #d3d9df;
+  --input: #d3d9df;
+  --ring: #a35b00;
+  --chart-1: #a35b00;
+  --chart-2: #5c6875;
+  --chart-3: #8494a3;
+  --chart-4: #1b2229;
+  --chart-5: #d3d9df;
+  --radius: 0rem;
+  --sidebar: #fafbfb;
+  --sidebar-foreground: #1b2229;
+  --sidebar-primary: #a35b00;
+  --sidebar-primary-foreground: #fafbfb;
+  --sidebar-accent: #e2e6e9;
+  --sidebar-accent-foreground: #1b2229;
+  --sidebar-border: #d3d9df;
+  --sidebar-ring: #a35b00;
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+[data-theme="dark"] {
+  --background: #10151b;
+  --foreground: #e2e8ee;
+  --card: #161d25;
+  --card-foreground: #e2e8ee;
+  --popover: #161d25;
+  --popover-foreground: #e2e8ee;
+  --primary: #ffb454;
+  --primary-foreground: #10151b;
+  --secondary: #1c242e;
+  --secondary-foreground: #e2e8ee;
+  --muted: #1c242e;
+  --muted-foreground: #8494a3;
+  --accent: #1c242e;
+  --accent-foreground: #e2e8ee;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --success: #3ddc84;
+  --border: #27313d;
+  --input: #27313d;
+  --ring: #ffb454;
+  --chart-1: #ffb454;
+  --chart-2: #8494a3;
+  --chart-3: #5c6875;
+  --chart-4: #e2e8ee;
+  --chart-5: #27313d;
+  --sidebar: #161d25;
+  --sidebar-foreground: #e2e8ee;
+  --sidebar-primary: #ffb454;
+  --sidebar-primary-foreground: #10151b;
+  --sidebar-accent: #1c242e;
+  --sidebar-accent-foreground: #e2e8ee;
+  --sidebar-border: #27313d;
+  --sidebar-ring: #ffb454;
 }
 
 @layer base {
@@ -126,5 +135,50 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+@layer components {
+  /* console boot: elements power on in sequence (delay set inline) */
+  .boot {
+    animation: boot 0.3s ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .boot {
+      animation: none;
+    }
+  }
+
+  /* case-study MDX bodies */
+  .prose-case-study {
+    @apply text-foreground max-w-none text-base leading-relaxed;
+  }
+  .prose-case-study h2 {
+    @apply font-heading mt-10 mb-3 text-xl font-semibold uppercase;
+  }
+  .prose-case-study p {
+    @apply mb-4 max-w-prose;
+  }
+  .prose-case-study ul,
+  .prose-case-study ol {
+    @apply mb-4 max-w-prose list-disc pl-6;
+  }
+  .prose-case-study blockquote {
+    @apply border-primary text-muted-foreground mb-4 border-l-2 pl-4;
+  }
+  .prose-case-study a {
+    @apply text-primary underline underline-offset-4;
+  }
+  .prose-case-study code {
+    @apply font-mono bg-card border-border border px-1 py-0.5 text-[0.85em];
+  }
+}
+
+@keyframes boot {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
