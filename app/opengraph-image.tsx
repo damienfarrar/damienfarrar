@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { getProfile } from "@/lib/content/repo";
+import { yearsInProduction } from "@/lib/domain/experience";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -6,6 +8,7 @@ export const alt = "Damien Farrar — full-stack engineer, Melbourne";
 
 // Set in the ops-console direction: night ground, CRT amber, panel keylines.
 export default function Image() {
+  const years = yearsInProduction(getProfile().careerStartYear);
   return new ImageResponse(
     <div
       style={{
@@ -42,7 +45,7 @@ export default function Image() {
           lineHeight: 1.05,
         }}
       >
-        <span>TEN YEARS</span>
+        <span>{years} YEARS</span>
         <span style={{ color: "#ffb454" }}>IN PRODUCTION.</span>
       </div>
       <div

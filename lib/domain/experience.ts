@@ -17,13 +17,9 @@ export function sortRolesCurrentFirst(roles: readonly Role[]): Role[] {
   });
 }
 
-export function yearsOfExperience(
-  roles: readonly Role[],
+export function yearsInProduction(
+  startYear: number,
   now: Date = new Date(),
 ): number {
-  if (roles.length === 0) return 0;
-  const earliestYear = Math.min(
-    ...roles.map((role) => Number.parseInt(role.start.slice(0, 4), 10)),
-  );
-  return Math.max(0, now.getFullYear() - earliestYear);
+  return Math.max(0, now.getFullYear() - startYear);
 }

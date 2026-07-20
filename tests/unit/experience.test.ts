@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   sortRolesCurrentFirst,
-  yearsOfExperience,
+  yearsInProduction,
 } from "@/lib/domain/experience";
 import type { Role } from "@/lib/content/schemas";
 
@@ -30,16 +30,13 @@ describe("sortRolesCurrentFirst", () => {
   });
 });
 
-describe("yearsOfExperience", () => {
-  it("counts from the earliest role start", () => {
-    const roles = [
-      role({ start: "2008", end: "2014" }),
-      role({ start: "2024", end: null }),
-    ];
-    expect(yearsOfExperience(roles, new Date("2026-07-17"))).toBe(18);
+describe("yearsInProduction", () => {
+  it("counts calendar years from the career start", () => {
+    expect(yearsInProduction(2008, new Date("2026-07-17"))).toBe(18);
+    expect(yearsInProduction(2026, new Date("2026-07-17"))).toBe(0);
   });
 
-  it("returns 0 for no roles", () => {
-    expect(yearsOfExperience([], new Date("2026-07-17"))).toBe(0);
+  it("never goes negative on a future start year", () => {
+    expect(yearsInProduction(2030, new Date("2026-07-17"))).toBe(0);
   });
 });

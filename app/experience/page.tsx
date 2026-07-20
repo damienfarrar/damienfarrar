@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { getExperience } from "@/lib/content/repo";
+import { getExperience, getProfile } from "@/lib/content/repo";
 import {
   sortRolesCurrentFirst,
-  yearsOfExperience,
+  yearsInProduction,
 } from "@/lib/domain/experience";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ function formatRange(start: string, end: string | null): string {
 
 export default function ExperiencePage() {
   const roles = sortRolesCurrentFirst(getExperience().roles);
-  const years = yearsOfExperience(roles);
+  const years = yearsInProduction(getProfile().careerStartYear);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-5 pt-14 pb-20 sm:px-10 sm:pt-24">

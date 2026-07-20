@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import { getAllProjects } from "@/lib/content/repo";
+import { getAllProjects, getProfile } from "@/lib/content/repo";
+import { yearsInProduction } from "@/lib/domain/experience";
 import {
   getCiStatus,
   getCommitActivity,
@@ -31,6 +32,7 @@ function TileSub({ children }: { children: React.ReactNode }) {
 }
 
 export default async function Home() {
+  const years = yearsInProduction(getProfile().careerStartYear);
   const slugs = getAllProjects().map((project) => project.slug);
   const [activity, latestCommit, ciStatus, totalReads] = await Promise.all([
     getCommitActivity(),
@@ -160,7 +162,7 @@ export default async function Home() {
           className="boot font-heading max-w-3xl text-5xl font-bold uppercase sm:text-7xl"
           style={{ animationDelay: "50ms" }}
         >
-          Ten years <span className="text-primary">in production.</span>
+          {years} years <span className="text-primary">in production.</span>
         </h1>
         <p
           className="boot text-foreground mt-6 max-w-2xl text-lg"

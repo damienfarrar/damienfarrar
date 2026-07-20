@@ -56,6 +56,9 @@ export const profileSchema = z.object({
   tagline: z.string().min(1),
   location: z.string().min(1),
   bio: z.string().min(1),
+  // The single source for every "N years" claim on the site — deliberate
+  // fact, not inferred from (possibly incomplete) role history.
+  careerStartYear: z.number().int().min(1980).max(2100),
   socials: z.record(z.string(), z.url()).default({}),
 });
 

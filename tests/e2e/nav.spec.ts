@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 test("home shows the console and routes to a case study", async ({ page }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { level: 1, name: /ten years/i }),
+    page.getByRole("heading", { level: 1, name: /years in production/i }),
   ).toBeVisible();
   await expect(page.getByText(/self-report/i)).toBeVisible();
 

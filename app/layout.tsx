@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Barlow, Chakra_Petch, Martian_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { getProfile } from "@/lib/content/repo";
+import { yearsInProduction } from "@/lib/domain/experience";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -28,8 +30,7 @@ export const metadata: Metadata = {
     default: "Damien Farrar — Full-Stack Engineer",
     template: "%s · Damien Farrar",
   },
-  description:
-    "Full-stack engineer based in Melbourne, Australia. Ten years in production: case studies, experience, and the source behind this site.",
+  description: `Full-stack engineer based in Melbourne, Australia. ${yearsInProduction(getProfile().careerStartYear)} years in production: case studies, experience, and the source behind this site.`,
   openGraph: {
     siteName: "Damien Farrar",
     type: "website",
