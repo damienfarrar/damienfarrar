@@ -187,7 +187,7 @@ export default async function Home() {
             href="https://github.com/damienfarrar/damienfarrar"
             className="font-heading text-primary text-sm font-semibold tracking-[0.06em] uppercase underline-offset-4 hover:underline"
           >
-            Read the source &nearr;
+            Read the source ↗
           </a>
         </div>
       </section>

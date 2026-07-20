@@ -7,7 +7,7 @@ export function SiteFooter() {
           href="https://github.com/damienfarrar/damienfarrar"
           className="hover:text-foreground underline-offset-4 hover:underline"
         >
-          Source on GitHub &nearr;
+          Source on GitHub ↗
         </a>
       </div>
     </footer>

@@ -22,7 +22,7 @@ export default function NotFound() {
         href="/"
         className="font-heading text-primary mt-8 text-sm font-semibold tracking-[0.06em] uppercase underline-offset-4 hover:underline"
       >
-        Back to the console &nearr;
+        Back to the console ↗
       </Link>
     </div>
   );

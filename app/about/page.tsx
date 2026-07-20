@@ -74,7 +74,7 @@ export default function AboutPage() {
             href={url}
             className="font-heading text-primary text-sm font-semibold tracking-[0.06em] uppercase underline-offset-4 hover:underline"
           >
-            {label} &nearr;
+            {label} ↗
           </a>
         ))}
       </div>
