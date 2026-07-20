@@ -1,0 +1,24 @@
+# Copy to terraform.tfvars (gitignored — *.tfvars never commits) and fill
+# in the values Resend shows after you add the domain in its dashboard.
+# Names below are typical for Resend; use exactly what the dashboard lists.
+
+resend_records = [
+  # SPF for the sending subdomain
+  {
+    name  = "send.damienfarrar.com"
+    type  = "TXT"
+    value = "v=spf1 include:amazonses.com ~all" # copy from dashboard
+  },
+  # MX for the sending subdomain
+  {
+    name  = "send.damienfarrar.com"
+    type  = "MX"
+    value = "10 feedback-smtp.ap-southeast-2.amazonses.com" # copy from dashboard
+  },
+  # DKIM public key
+  {
+    name  = "resend._domainkey.damienfarrar.com"
+    type  = "TXT"
+    value = "p=MIGfMA0GCSq..." # copy from dashboard (long key)
+  },
+]
