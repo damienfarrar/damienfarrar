@@ -14,7 +14,7 @@ covering exactly what must change at cutover (plan §7 Phase 6 / §9):
 1. Decide the state backend (plan §10: S3 vs Terraform Cloud free tier),
    uncomment/configure `backend` in `main.tf`. State never goes in git.
 2. Add the domain in Resend, then `cp terraform.tfvars.example
-   terraform.tfvars` and fill in the records it shows. The real file is
+terraform.tfvars` and fill in the records it shows. The real file is
    gitignored (`*.tfvars`); only the `.example` template commits.
 3. `terraform init && terraform plan` with AWS credentials for the zone's
    account — review that the plan only touches the records above.
