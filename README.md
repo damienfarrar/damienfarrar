@@ -13,6 +13,17 @@ fast, content-first); engineers read the _repo_ (docs, ADRs, tests). Restraint
 is intentional — enough architecture to show judgement, no ceremony a personal
 site can't justify. See the [design principles](docs/REFRESH_PLAN.md#design-principles).
 
+## Built with an AI pair, on purpose
+
+This repo was built with heavy AI assistance (Claude), directed by me — the
+commit trailers say so honestly. The decisions were mine: the plan, the ADRs,
+the design direction (picked across seven candidates), and the content. The
+quality bar is enforced by machinery that doesn't care who typed: Zod at every
+boundary, unit + e2e + axe tests, Lighthouse budgets in CI, and a full-history
+secrets scan. How and why is documented in
+[ADR-0006](docs/adr/0006-ai-assisted-build.md) — in 2026, directing an AI with
+discipline _is_ part of the job, and this repo is a work sample of that too.
+
 ## Architecture
 
 ```
