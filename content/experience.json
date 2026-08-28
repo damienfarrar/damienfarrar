@@ -1,42 +1,51 @@
 {
   "roles": [
     {
-      "company": "Enterprise SaaS company (placeholder)",
-      "title": "Lead Engineer",
-      "start": "2024",
+      "company": "Keyek",
+      "title": "Lead Architect",
+      "start": "2026-03",
       "end": null,
-      "summary": "Placeholder — technical leadership across a product team: architecture, ADRs, delivery ownership, mentoring.",
+      "summary": "Lead Architect for a hardware-enforced identity platform used by organisations that can't afford to be wrong — government, defence, healthcare, finance, critical infrastructure. Cryptographic verification at person, device, and platform level, anchored in hardware rather than copyable software credentials.",
+      "highlights": [],
+      "tech": ["c#", ".net", "typescript", "angular", "wpf", "sql", "aws"]
+    },
+    {
+      "company": "VeroGuard Systems",
+      "title": "Lead Architect",
+      "start": "2018-04",
+      "end": "2026-03",
+      "summary": "Lead Architect for a hardware-anchored identity and authentication platform — nearly eight years of system design across secure devices, cloud services, and enterprise integration.",
+      "highlights": [],
+      "tech": ["c#", ".net", "typescript", "angular", "wpf", "sql", "aws"]
+    },
+    {
+      "company": "Cruncher",
+      "title": "Lead Developer and Architect",
+      "start": "2017-05",
+      "end": "2018-04",
+      "summary": "Lead Developer and Architect for a Windows video-transcoding and DIT tool — ProRes on Windows, H.265/HEVC, and high-volume media ingestion for editors, colourists, and post-production.",
+      "highlights": [],
+      "tech": ["c#", ".net", "ffmpeg"]
+    },
+    {
+      "company": "Dubsat",
+      "title": "Lead Applications Developer & Integration Architect",
+      "start": "2008-10",
+      "end": "2018-04",
+      "summary": "Nearly ten years at an advertising-content delivery company, moving from computational programming and design through UX team lead to leading applications development and integration architecture. C#/.NET, media processing, and broadcaster integrations across AU/NZ.",
       "highlights": [
-        "Placeholder highlight — real history lands with the content pass."
+        "Computational Programmer and Designer (2008–2012), Team Lead — UX / C# Developer (2012–2014), then Lead Applications Developer & Integration Architect (2014–2018)."
       ],
-      "tech": ["react", "typescript", "aws"]
+      "tech": ["c#", ".net", "sql"]
     },
     {
-      "company": "Digital consultancy (placeholder)",
-      "title": "Senior Full-Stack Engineer",
-      "start": "2019",
-      "end": "2024",
-      "summary": "Placeholder — AWS at production scale, Terraform, CI/CD, Next.js and TypeScript end to end.",
+      "company": "IGT",
+      "title": "Flash Developer",
+      "start": "2006-01",
+      "end": "2008-09",
+      "summary": "Flash / ActionScript developer building game content and front-ends at a gaming-technology company.",
       "highlights": [],
-      "tech": ["aws", "terraform", "node", "next.js"]
-    },
-    {
-      "company": "Media company (placeholder)",
-      "title": "Full-Stack Developer",
-      "start": "2014",
-      "end": "2019",
-      "summary": "Placeholder — Node APIs, Angular, automated testing, ITIL and agile delivery.",
-      "highlights": [],
-      "tech": ["node", "angular", "sql"]
-    },
-    {
-      "company": "Design studio (placeholder)",
-      "title": "Designer who shipped code",
-      "start": "2008",
-      "end": "2014",
-      "summary": "Placeholder — design practice and front-end builds; programming arrived as a patch and never left.",
-      "highlights": [],
-      "tech": ["html", "css", "javascript"]
+      "tech": ["actionscript", "flash"]
     }
   ]
 }

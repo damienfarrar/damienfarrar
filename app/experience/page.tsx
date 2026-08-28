@@ -28,8 +28,7 @@ export default function ExperiencePage() {
         Experience
       </h1>
       <p className="text-muted-foreground mt-5 max-w-xl text-lg">
-        Roles and what actually changed in each. Placeholder history for now
-        &mdash; the pipeline is real, the companies are not yet.
+        Roles and what actually changed in each.
       </p>
 
       <ol className="border-border mt-12 border-t">
