@@ -27,21 +27,27 @@ data "aws_route53_zone" "main" {
 }
 
 # --- Vercel ------------------------------------------------------------
+# allow_overwrite: the apex A already exists (alias -> old S3 site) and is
+# the same type, so apply replaces it in place. The www record is a TYPE
+# change (A alias -> CNAME), which Route 53 will not do as an upsert — the
+# old www A record must be deleted by hand first (see README cutover step 4).
 
 resource "aws_route53_record" "apex" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = var.zone_name
-  type    = "A"
-  ttl     = 300
-  records = ["76.76.21.21"] # Vercel anycast
+  zone_id         = data.aws_route53_zone.main.zone_id
+  name            = var.zone_name
+  type            = "A"
+  ttl             = 300
+  records         = ["76.76.21.21"] # Vercel anycast
+  allow_overwrite = true
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = "www.${var.zone_name}"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["cname.vercel-dns.com"]
+  zone_id         = data.aws_route53_zone.main.zone_id
+  name            = "www.${var.zone_name}"
+  type            = "CNAME"
+  ttl             = 300
+  records         = ["cname.vercel-dns.com"]
+  allow_overwrite = true
 }
 
 # --- Resend (sending domain) -------------------------------------------
