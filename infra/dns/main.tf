@@ -27,6 +27,13 @@ data "aws_route53_zone" "main" {
 }
 
 # --- Vercel ------------------------------------------------------------
+# Values are the ones the Vercel project's Domains tab shows for this
+# project (Vercel is rolling its IP range forward; the older 76.76.21.21 /
+# cname.vercel-dns.com still resolve, but matching the dashboard is what
+# clears "Invalid Configuration" and issues the cert first try). The www
+# CNAME target is project-specific — re-check it if the project is ever
+# recreated.
+#
 # allow_overwrite: the apex A already exists (alias -> old S3 site) and is
 # the same type, so apply replaces it in place. The www record is a TYPE
 # change (A alias -> CNAME), which Route 53 will not do as an upsert — the
@@ -37,7 +44,7 @@ resource "aws_route53_record" "apex" {
   name            = var.zone_name
   type            = "A"
   ttl             = 300
-  records         = ["76.76.21.21"] # Vercel anycast
+  records         = ["216.198.79.1"] # Vercel
   allow_overwrite = true
 }
 
@@ -46,7 +53,7 @@ resource "aws_route53_record" "www" {
   name            = "www.${var.zone_name}"
   type            = "CNAME"
   ttl             = 300
-  records         = ["cname.vercel-dns.com"]
+  records         = ["7732481b2f6863c8.vercel-dns-017.com"] # Vercel (project-specific)
   allow_overwrite = true
 }
 

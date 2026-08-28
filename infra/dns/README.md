@@ -32,7 +32,7 @@ untouched by Terraform.
 
 5. `terraform init`
 6. `terraform plan` — confirm it only:
-   - **modifies** the apex `A` (old S3 alias → `76.76.21.21`)
+   - **modifies** the apex `A` (old S3 alias → Vercel's IP)
    - **creates** `www` `CNAME` and the four Resend records
      (`resend._domainkey`, `send` TXT, `send` MX, `_dmarc`)
 
