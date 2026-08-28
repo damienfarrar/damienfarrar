@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandMark } from "@/components/brand-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navLinks = [
@@ -11,11 +12,12 @@ const navLinks = [
 export function SiteHeader() {
   return (
     <header className="border-border border-b">
-      <div className="mx-auto flex w-full max-w-6xl items-baseline gap-6 px-5 py-5 sm:px-10">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-5 py-5 sm:px-10">
         <Link
           href="/"
-          className="font-mono text-primary text-[0.65rem] font-medium tracking-[0.1em] uppercase"
+          className="font-mono text-primary flex items-center gap-2 text-[0.65rem] font-medium tracking-[0.1em] uppercase"
         >
+          <BrandMark className="size-[18px] shrink-0" />
           damienfarrar.com
         </Link>
         <nav
