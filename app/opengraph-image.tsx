@@ -6,7 +6,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt = "Damien Farrar — full-stack engineer, Melbourne";
 
-// Set in the ops-console direction: night ground, CRT amber, panel keylines.
+// Set in the Dispatch system: neutral graphite ground, amber accent, keylines.
 export default function Image() {
   const years = yearsInProduction(getProfile().careerStartYear);
   return new ImageResponse(
@@ -17,8 +17,8 @@ export default function Image() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        background: "#10151b",
-        color: "#e2e8ee",
+        background: "#141414",
+        color: "#e9e9e9",
         padding: 72,
         fontFamily: "sans-serif",
       }}
@@ -29,7 +29,7 @@ export default function Image() {
           justifyContent: "space-between",
           fontSize: 24,
           letterSpacing: 4,
-          color: "#8494a3",
+          color: "#9a9a9c",
         }}
       >
         <span>DAMIENFARRAR.COM</span>
@@ -45,17 +45,17 @@ export default function Image() {
           lineHeight: 1.05,
         }}
       >
-        <span>{years} YEARS</span>
-        <span style={{ color: "#ffb454" }}>IN PRODUCTION.</span>
+        <span>{years} years</span>
+        <span style={{ color: "#ffb454" }}>in production.</span>
       </div>
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          borderTop: "2px solid #27313d",
+          borderTop: "2px solid #38383a",
           paddingTop: 24,
           fontSize: 26,
-          color: "#8494a3",
+          color: "#9a9a9c",
         }}
       >
         <span>Damien Farrar — Full-Stack Engineer</span>

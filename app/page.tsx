@@ -159,7 +159,7 @@ export default async function Home() {
     <div className="mx-auto w-full max-w-6xl px-5 sm:px-10">
       <section className="pt-14 pb-10 sm:pt-24 sm:pb-16">
         <h1
-          className="boot font-heading max-w-3xl text-5xl font-bold uppercase sm:text-7xl"
+          className="boot font-heading max-w-3xl text-5xl font-bold sm:text-7xl"
           style={{ animationDelay: "50ms" }}
         >
           {years} years <span className="text-primary">in production.</span>
@@ -180,14 +180,14 @@ export default async function Home() {
             href="/projects"
             className={cn(
               buttonVariants({ size: "lg" }),
-              "font-heading h-11 px-6 tracking-[0.06em] uppercase",
+              "font-mono h-11 px-6 tracking-[0.06em] uppercase",
             )}
           >
             Read the case studies
           </Link>
           <a
             href="https://github.com/damienfarrar/damienfarrar"
-            className="font-heading text-primary text-sm font-semibold tracking-[0.06em] uppercase underline-offset-4 hover:underline"
+            className="font-mono text-primary text-sm font-medium tracking-[0.06em] uppercase underline-offset-4 hover:underline"
           >
             Read the source ↗
           </a>

@@ -7,7 +7,7 @@ export default function NotFound() {
         <p className="font-mono text-primary text-[0.58rem] font-medium tracking-[0.14em] uppercase">
           Route
         </p>
-        <p className="font-heading mt-3 flex items-center gap-3 text-3xl font-bold uppercase">
+        <p className="font-heading mt-3 flex items-center gap-3 text-3xl font-bold">
           <span
             aria-hidden
             className="bg-destructive inline-block size-2 rounded-full"
@@ -20,7 +20,7 @@ export default function NotFound() {
       </div>
       <Link
         href="/"
-        className="font-heading text-primary mt-8 text-sm font-semibold tracking-[0.06em] uppercase underline-offset-4 hover:underline"
+        className="font-mono text-primary mt-8 text-sm font-medium tracking-[0.06em] uppercase underline-offset-4 hover:underline"
       >
         Back to the console ↗
       </Link>
