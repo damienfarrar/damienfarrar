@@ -8,7 +8,7 @@ import {
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Career timeline of Damien Farrar — full-stack engineer in Melbourne.",
+    "Career timeline of Damien Farrar — full-stack engineer & architect in Melbourne.",
 };
 
 function formatRange(start: string, end: string | null): string {

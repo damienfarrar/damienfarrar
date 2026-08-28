@@ -24,10 +24,10 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Damien Farrar — Full-Stack Engineer",
+    default: "Damien Farrar — Full-stack engineer & architect",
     template: "%s · Damien Farrar",
   },
-  description: `Full-stack engineer based in Melbourne, Australia. ${yearsInProduction(getProfile().careerStartYear)} years in production: case studies, experience, and the source behind this site.`,
+  description: `Full-stack engineer and architect based in Melbourne, Australia. ${yearsInProduction(getProfile().careerStartYear)} years in production: case studies, experience, and the source behind this site.`,
   openGraph: {
     siteName: "Damien Farrar",
     type: "website",

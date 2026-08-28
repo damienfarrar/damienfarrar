@@ -168,9 +168,9 @@ export default async function Home() {
           className="boot text-foreground mt-6 max-w-2xl text-lg"
           style={{ animationDelay: "120ms" }}
         >
-          Full-stack engineer in Melbourne. This site runs like the systems I
-          build — source public, decisions recorded, quality gates enforced in
-          CI — and the panel below is it reporting on itself.
+          Full-stack engineer and architect in Melbourne. This site runs like
+          the systems I build — source public, decisions recorded, quality gates
+          enforced in CI — and the panel below is it reporting on itself.
         </p>
         <div
           className="boot mt-9 flex flex-wrap items-center gap-6"

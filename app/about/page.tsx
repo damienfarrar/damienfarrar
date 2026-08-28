@@ -4,7 +4,8 @@ import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About Damien Farrar — full-stack engineer in Melbourne.",
+  description:
+    "About Damien Farrar — full-stack engineer & architect in Melbourne.",
 };
 
 export default function AboutPage() {
@@ -14,7 +15,7 @@ export default function AboutPage() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: profile.name,
-    jobTitle: "Full-Stack Engineer",
+    jobTitle: "Lead Architect",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Melbourne",

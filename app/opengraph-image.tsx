@@ -4,7 +4,7 @@ import { yearsInProduction } from "@/lib/domain/experience";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Damien Farrar — full-stack engineer, Melbourne";
+export const alt = "Damien Farrar — full-stack engineer & architect, Melbourne";
 
 // Set in the Dispatch system: neutral graphite ground, amber accent, keylines.
 export default function Image() {
@@ -58,7 +58,7 @@ export default function Image() {
           color: "#9a9a9c",
         }}
       >
-        <span>Damien Farrar — Full-Stack Engineer</span>
+        <span>Damien Farrar — engineer &amp; architect</span>
         <span>source public · decisions recorded</span>
       </div>
     </div>,
