@@ -4,8 +4,9 @@ Terraform for the `damienfarrar.com` hosted zone (already in Route 53),
 covering exactly what must change at cutover (plan §7 Phase 6 / §9):
 
 - A/CNAME records pointing the apex + `www` at Vercel
-- Resend sending-domain records (SPF, DKIM, MX) via `var.resend_records` —
-  values come from the Resend dashboard after the domain is added there
+- Resend sending-domain records (DKIM, SPF, bounce MX, optional DMARC) via
+  `var.resend_records` — values come from the Resend dashboard after the
+  domain is added there
 - Legacy `api.` records are deliberately absent; removing them from the
   zone is a launch-checklist step
 
