@@ -16,7 +16,7 @@ export default function ProjectsPage() {
       <p className="font-mono text-primary text-[0.58rem] font-medium tracking-[0.14em] uppercase">
         Case studies
       </p>
-      <h1 className="font-heading mt-4 text-4xl font-bold uppercase sm:text-6xl">
+      <h1 className="font-heading mt-4 text-4xl font-bold sm:text-6xl">
         Projects
       </h1>
       <p className="text-muted-foreground mt-5 max-w-xl text-lg">
@@ -34,7 +34,7 @@ export default function ProjectsPage() {
               <span className="font-mono text-primary text-[0.58rem] font-medium tracking-[0.14em] uppercase">
                 {project.dates} &middot; {project.role}
               </span>
-              <span className="font-heading text-xl font-semibold uppercase group-hover:underline group-hover:underline-offset-4">
+              <span className="font-heading text-xl font-semibold group-hover:underline group-hover:underline-offset-4">
                 {project.title}
               </span>
               <span className="text-muted-foreground text-sm">

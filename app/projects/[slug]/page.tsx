@@ -63,7 +63,7 @@ export default async function ProjectPage({
         {readingTimeMinutes(project.body)} min read
         {views !== null && <> &middot; {views} reads</>}
       </p>
-      <h1 className="font-heading mt-4 text-4xl font-bold uppercase sm:text-5xl">
+      <h1 className="font-heading mt-4 text-4xl font-bold sm:text-5xl">
         {project.title}
       </h1>
       <p className="text-muted-foreground mt-5 text-lg">{project.summary}</p>

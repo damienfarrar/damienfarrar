@@ -1,9 +1,9 @@
 {
   "name": "Damien Farrar",
-  "tagline": "Full-stack engineer — Melbourne, Australia.",
+  "tagline": "Full-stack engineer & architect — Melbourne, Australia.",
   "location": "Melbourne, Australia",
   "careerStartYear": 2006,
-  "bio": "I design and build web software end to end — ten-plus years across the stack, with a background in design. I care about documented decisions, boring reliable infrastructure, and shipping things that keep working after the demo.",
+  "bio": "I design and build software end to end — two decades across the stack, with a background in design. I care about documented decisions, boring reliable infrastructure, and shipping things that keep working after the demo.",
   "socials": {
     "github": "https://github.com/damienfarrar"
   }

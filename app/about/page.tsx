@@ -4,7 +4,8 @@ import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About Damien Farrar — full-stack engineer in Melbourne.",
+  description:
+    "About Damien Farrar — full-stack engineer & architect in Melbourne.",
 };
 
 export default function AboutPage() {
@@ -14,7 +15,7 @@ export default function AboutPage() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: profile.name,
-    jobTitle: "Full-Stack Engineer",
+    jobTitle: "Lead Architect",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Melbourne",
@@ -33,7 +34,7 @@ export default function AboutPage() {
       <p className="font-mono text-primary text-[0.58rem] font-medium tracking-[0.14em] uppercase">
         Operator profile
       </p>
-      <h1 className="font-heading mt-4 text-4xl font-bold uppercase sm:text-6xl">
+      <h1 className="font-heading mt-4 text-4xl font-bold sm:text-6xl">
         About
       </h1>
       <p className="mt-6 max-w-2xl text-lg">{profile.bio}</p>
@@ -72,7 +73,7 @@ export default function AboutPage() {
           <a
             key={label}
             href={url}
-            className="font-heading text-primary text-sm font-semibold tracking-[0.06em] uppercase underline-offset-4 hover:underline"
+            className="font-mono text-primary text-sm font-medium tracking-[0.06em] uppercase underline-offset-4 hover:underline"
           >
             {label} ↗
           </a>

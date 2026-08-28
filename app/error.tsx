@@ -9,7 +9,7 @@ export default function ErrorPage({ reset }: { reset: () => void }) {
         <p className="font-mono text-primary text-[0.58rem] font-medium tracking-[0.14em] uppercase">
           System
         </p>
-        <p className="font-heading mt-3 flex items-center gap-3 text-3xl font-bold uppercase">
+        <p className="font-heading mt-3 flex items-center gap-3 text-3xl font-bold">
           <span
             aria-hidden
             className="bg-destructive inline-block size-2 rounded-full"
@@ -22,7 +22,7 @@ export default function ErrorPage({ reset }: { reset: () => void }) {
       </div>
       <Button
         onClick={reset}
-        className="font-heading mt-8 h-11 px-6 tracking-[0.06em] uppercase"
+        className="font-mono mt-8 h-11 px-6 tracking-[0.06em] uppercase"
       >
         Try again
       </Button>

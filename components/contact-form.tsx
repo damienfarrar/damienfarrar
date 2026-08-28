@@ -50,7 +50,7 @@ export function ContactForm() {
   if (state.status === "sent") {
     return (
       <div className="border-border bg-card max-w-xl border p-6">
-        <p className="font-heading text-success flex items-center gap-3 text-xl font-semibold uppercase">
+        <p className="font-heading text-success flex items-center gap-3 text-xl font-semibold">
           <span
             aria-hidden
             className="bg-success inline-block size-2 rounded-full"
@@ -137,7 +137,7 @@ export function ContactForm() {
       <Button
         type="submit"
         disabled={state.status === "sending"}
-        className="font-heading h-11 px-6 tracking-[0.06em] uppercase"
+        className="font-mono h-11 px-6 tracking-[0.06em] uppercase"
       >
         {state.status === "sending" ? "Sending…" : "Send message"}
       </Button>

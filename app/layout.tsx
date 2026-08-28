@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Barlow, Chakra_Petch, Martian_Mono } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getProfile } from "@/lib/content/repo";
@@ -7,30 +7,27 @@ import { yearsInProduction } from "@/lib/domain/experience";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
-const chakraPetch = Chakra_Petch({
-  weight: ["600", "700"],
+// Dispatch system: the IBM Plex superfamily — Plex Sans (headings + body,
+// engineered for screen reading) with Plex Mono for labels and telemetry.
+const ibmPlexSans = IBM_Plex_Sans({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-chakra-petch",
+  variable: "--font-ibm-plex-sans",
 });
 
-const barlow = Barlow({
-  weight: ["400", "500", "600"],
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ["400", "500"],
   subsets: ["latin"],
-  variable: "--font-barlow",
-});
-
-const martianMono = Martian_Mono({
-  subsets: ["latin"],
-  variable: "--font-martian-mono",
+  variable: "--font-ibm-plex-mono",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Damien Farrar — Full-Stack Engineer",
+    default: "Damien Farrar — Full-stack engineer & architect",
     template: "%s · Damien Farrar",
   },
-  description: `Full-stack engineer based in Melbourne, Australia. ${yearsInProduction(getProfile().careerStartYear)} years in production: case studies, experience, and the source behind this site.`,
+  description: `Full-stack engineer and architect based in Melbourne, Australia. ${yearsInProduction(getProfile().careerStartYear)} years in production: case studies, experience, and the source behind this site.`,
   openGraph: {
     siteName: "Damien Farrar",
     type: "website",
@@ -53,7 +50,7 @@ export default function RootLayout({
       lang="en"
       data-theme="light"
       suppressHydrationWarning
-      className={`${chakraPetch.variable} ${barlow.variable} ${martianMono.variable} h-full antialiased`}
+      className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

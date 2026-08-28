@@ -8,7 +8,7 @@ import {
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Career timeline of Damien Farrar — full-stack engineer in Melbourne.",
+    "Career timeline of Damien Farrar — full-stack engineer & architect in Melbourne.",
 };
 
 function formatRange(start: string, end: string | null): string {
@@ -24,12 +24,11 @@ export default function ExperiencePage() {
       <p className="font-mono text-primary text-[0.58rem] font-medium tracking-[0.14em] uppercase">
         Service history &middot; {years}+ years
       </p>
-      <h1 className="font-heading mt-4 text-4xl font-bold uppercase sm:text-6xl">
+      <h1 className="font-heading mt-4 text-4xl font-bold sm:text-6xl">
         Experience
       </h1>
       <p className="text-muted-foreground mt-5 max-w-xl text-lg">
-        Roles and what actually changed in each. Placeholder history for now
-        &mdash; the pipeline is real, the companies are not yet.
+        Roles and what actually changed in each.
       </p>
 
       <ol className="border-border mt-12 border-t">
@@ -49,7 +48,7 @@ export default function ExperiencePage() {
               )}
             </div>
             <div>
-              <h2 className="font-heading text-xl font-semibold uppercase">
+              <h2 className="font-heading text-xl font-semibold">
                 {role.title}
               </h2>
               <p className="font-mono text-muted-foreground mt-1 text-[0.68rem] tracking-[0.06em] uppercase">

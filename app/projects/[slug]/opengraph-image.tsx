@@ -25,8 +25,8 @@ export default async function Image({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        background: "#10151b",
-        color: "#e2e8ee",
+        background: "#141414",
+        color: "#e9e9e9",
         padding: 72,
         fontFamily: "sans-serif",
       }}
@@ -41,7 +41,7 @@ export default async function Image({
         }}
       >
         <span>CASE STUDY</span>
-        <span style={{ color: "#8494a3" }}>
+        <span style={{ color: "#9a9a9c" }}>
           {project?.dates.toUpperCase()} · {project?.role.toUpperCase()}
         </span>
       </div>
@@ -51,7 +51,6 @@ export default async function Image({
           fontWeight: 700,
           fontSize: 76,
           lineHeight: 1.1,
-          textTransform: "uppercase",
         }}
       >
         {project?.title}
@@ -60,10 +59,10 @@ export default async function Image({
         style={{
           display: "flex",
           justifyContent: "space-between",
-          borderTop: "2px solid #27313d",
+          borderTop: "2px solid #38383a",
           paddingTop: 24,
           fontSize: 26,
-          color: "#8494a3",
+          color: "#9a9a9c",
         }}
       >
         <span>damienfarrar.com</span>

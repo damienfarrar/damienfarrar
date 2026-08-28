@@ -1,0 +1,25 @@
+/**
+ * The site mark — a registration / crop mark: four amber corner brackets
+ * around a centre pip on the graphite ground. Kept identical to
+ * app/icon.svg (the favicon) so the tab and the header read as one thing.
+ */
+export function BrandMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} aria-hidden="true">
+      <rect width="32" height="32" fill="#141414" />
+      <g
+        fill="none"
+        stroke="#ffb454"
+        strokeWidth="3.5"
+        strokeLinecap="butt"
+        strokeLinejoin="miter"
+      >
+        <path d="M4 11.5V4h7.5" />
+        <path d="M20.5 4h7.5v7.5" />
+        <path d="M28 20.5v7.5h-7.5" />
+        <path d="M11.5 28H4v-7.5" />
+      </g>
+      <rect x="13.5" y="13.5" width="5" height="5" fill="#ffb454" />
+    </svg>
+  );
+}

@@ -12,7 +12,7 @@ export default function ContactPage() {
       <p className="font-mono text-primary text-[0.58rem] font-medium tracking-[0.14em] uppercase">
         Open channel
       </p>
-      <h1 className="font-heading mt-4 text-4xl font-bold uppercase sm:text-6xl">
+      <h1 className="font-heading mt-4 text-4xl font-bold sm:text-6xl">
         Contact
       </h1>
       <p className="text-muted-foreground mt-5 mb-10 max-w-xl text-lg">

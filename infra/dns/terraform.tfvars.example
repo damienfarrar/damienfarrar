@@ -1,24 +1,30 @@
 # Copy to terraform.tfvars (gitignored — *.tfvars never commits) and fill
 # in the values Resend shows after you add the domain in its dashboard.
-# Names below are typical for Resend; use exactly what the dashboard lists.
+# Use exactly what the dashboard lists; names here are fully qualified.
 
 resend_records = [
+  # DKIM — domain verification. The p= value is long; paste it whole.
+  {
+    name  = "resend._domainkey.damienfarrar.com"
+    type  = "TXT"
+    value = "p=MIGfMA0GCSq..." # copy the full key from the dashboard
+  },
   # SPF for the sending subdomain
   {
     name  = "send.damienfarrar.com"
     type  = "TXT"
     value = "v=spf1 include:amazonses.com ~all" # copy from dashboard
   },
-  # MX for the sending subdomain
+  # Bounce / complaint MX for the sending subdomain (region-specific host)
   {
     name  = "send.damienfarrar.com"
     type  = "MX"
-    value = "10 feedback-smtp.ap-southeast-2.amazonses.com" # copy from dashboard
+    value = "10 feedback-smtp.REGION.amazonses.com" # copy from dashboard
   },
-  # DKIM public key
+  # DMARC — Resend lists this as optional; p=none is monitor-only, safe to start
   {
-    name  = "resend._domainkey.damienfarrar.com"
+    name  = "_dmarc.damienfarrar.com"
     type  = "TXT"
-    value = "p=MIGfMA0GCSq..." # copy from dashboard (long key)
+    value = "v=DMARC1; p=none;"
   },
 ]
