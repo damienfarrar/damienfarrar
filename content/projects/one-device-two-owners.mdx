@@ -1,0 +1,94 @@
+---
+title: One device, two owners
+slug: one-device-two-owners
+summary: A hardware token that allows one connection at a time, which both Windows and our own service need. Getting them to take turns, then tracking down the failure that was left.
+role: Lead Architect
+dates: "2026"
+stack:
+  - c#
+  - pc/sc
+  - fido2
+  - webauthn
+featured: true
+order: 3
+---
+
+> During a contactless sign-in Windows talks to the token directly, with its own
+> stack. So does our service. The protocol allows one connection at a time, and
+> Windows doesn't know our service is there.
+
+## Problem
+
+There's no shared lock to coordinate on. Windows starts a contactless ceremony
+whenever it needs to, without telling anyone, and our service runs a poll loop
+the whole time so it can pick up a card as soon as it's tapped.
+
+The token switches owner by powering its contactless interface off and on again.
+From our side that looks the same as someone tapping a fresh card, so the poll
+loop would grab the token back before Windows had finished with it. The ceremony
+then failed, with the authenticator either not showing up or answering as the
+wrong application.
+
+## Approach
+
+I added a handover window. Once a ceremony starts, reader-state changes stop
+restarting the poll loop, and a watchdog restarts it when the ceremony ends. We
+find out a ceremony has ended from the platform's operational event log, keyed
+by activity ID so one ending doesn't affect the others.
+
+Deciding when to open the window took two tries. My first version opened it when
+we sent a response, which seemed reasonable, but the token can run several
+exchanges before it hands over and it only sends the next one when it's polled.
+Opening the window early held up each of those exchanges for a full window, and
+a single registration took two minutes. The second version opens the window
+when the token leaves the reader, which is the token telling us it's done. That
+fixed the delay, and it changed what the window is for: it no longer gates the
+handover, it just caps how long we wait on a ceremony that never completes.
+
+That still left one failure. I went through the possible host-side causes one at
+a time, with a test for each:
+
+- That our code was deselecting the application. Ruled out: the token's display
+  showed otherwise, and the failing exchange sent zero commands, so it never
+  selected anything.
+- That we were still holding the connection. Ruled out by releasing it when the
+  window opens and seeing the failure carry on with the service holding nothing.
+- That Windows' own smart-card service was competing for the reader. Ruled out
+  by turning it off via policy. Same failure, but it now happened in 30ms
+  instead of about half a second, so that service was only adding latency. With
+  it gone, the refusal was immediate and consistent rather than looking like a
+  timeout.
+
+What settled it was a comparison. A separate, off-the-shelf authenticator on the
+same machine and reader ran the same ceremony fine. And a browser client with a
+long timeout succeeded where a short-timeout host failed. The only variable left
+was the token itself.
+
+## Key decisions
+
+- Check the token directly instead of guessing from host state. To tell whether
+  a ceremony is still going, our service tries to select its application on the
+  token. That works unless Windows' application is already selected, so success
+  means Windows never got it and failure means a ceremony is live.
+- Set the wait from how long a person will actually stand there. Once the window
+  was just a backstop for a ceremony that never finishes, the right value was
+  longer than anyone's patience at a login prompt, not some multiple of a round
+  trip.
+- There's no negotiation with Windows because there's no channel for it. The
+  whole thing is our side working around what the token and the OS visibly do,
+  and the code and comments say so.
+
+## Outcome
+
+The handover works. The poll loop stays out of the way for as long as a Windows
+ceremony runs and picks up again cleanly afterwards.
+
+The remaining failure was on the token side. We had to show that without
+firmware access, and doing so turned a vague request to the hardware vendor into
+one specific change.
+
+Three earlier attempts to diagnose that failure had been wrong. The write-up
+lists each one and why it was wrong. Mostly it was that the OS event log and our
+service log hadn't been read together. Findings are marked as confirmed or still
+suspected, and one test run is thrown out in the document itself after I found a
+bug on our side had spoiled it.

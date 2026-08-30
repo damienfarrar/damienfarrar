@@ -1,0 +1,85 @@
+---
+title: Unblocking the logon screen
+slug: unblocking-the-logon-screen
+summary: The Windows logon screen could freeze for up to two minutes with no cancel option. Making it interruptible, once the timeout was tightened enough that returning early was safe.
+role: Lead Architect
+dates: "2026"
+stack:
+  - c#
+  - .net
+  - com interop
+  - win32
+featured: true
+order: 1
+---
+
+> Windows calls a credential provider on its UI thread. This one ran the whole
+> card exchange inside that call, so nothing you clicked while it worked did
+> anything.
+
+## Problem
+
+You pick the wrong card from the sign-in list. It's not in front of you, so you
+never enter a PIN, and you can't cancel because the thread that would handle a
+cancel is the one that's blocked. You wait out the whole timeout on a frozen
+screen.
+
+The timeout wasn't meant to be two minutes. It was a 45-second budget that reset
+on every packet, and a five-second self-poll meant the card's replies to our own
+polling kept resetting it, up to a hard ceiling around two minutes.
+
+There was also a side effect nobody planned. While the thread was blocked,
+Windows couldn't run the logon screen's own idle timeout. Making the call return
+quickly would remove that.
+
+## Approach
+
+I did it in two parts and shipped them separately.
+
+First the timeout. Stop counting our own poll replies as activity. Replace the
+single resettable counter with two: an idle timeout measured from real card
+traffic, and a fixed overall deadline. Also tell the card to abort when the
+deadline hits, which the old code didn't do.
+
+Then the async change. The transaction runs off the UI thread with a
+cancellation token. The COM entry point becomes a dispatcher: while a
+transaction is running it returns "not finished", and when the transaction
+completes it raises the credentials-changed notification back on the UI thread.
+That path existed already but had never run, because the thread it needs was
+always blocked.
+
+## Key decisions
+
+- Do the timeout fix first. Once the budget was corrected the worst case fit
+  inside the Windows idle timeout with room to spare. That headroom is what
+  makes the async change safe to ship; cancellation is a fallback for when it
+  isn't enough. It also meant the timeout fix could go out on its own, and the
+  async change could be held back or reverted without losing it.
+- A cancelled transaction goes straight back to idle. It writes why to the
+  status line and doesn't sit in a failed state, so the next attempt starts
+  clean.
+- Cancel, don't try to resume. When Windows resets the transport it keeps the
+  credential object. A transaction still holding the old connection would block
+  until its own timeout, so cancellation tears everything down. I didn't add a
+  path to reconnect a running transaction to a new transport.
+- Use process-wide power requests. The per-thread version was in the code,
+  commented out, but the transaction runs on a thread-pool thread, so a
+  per-thread wake state would either leak to the next task or vanish.
+
+## Outcome
+
+Numbers are from a test machine, not a fleet.
+
+- Wrong-card wait: about two minutes down to 45 to 55 seconds, and the card is
+  told to stop rather than left hanging.
+- Cancel: from nothing to under a second, and it's the only control on screen
+  while a transaction runs.
+- Three more bugs turned up while testing the change, all fixed: a connect that
+  kept talking to the card after cancellation; handlers that ran the card
+  through a full credential exchange after the user had cancelled; and a null
+  dereference in a COM entry point that only became reachable once the code
+  could get there.
+
+One known gap is left in and documented. Replies are matched on a sequence
+floor, not an exact number, so a late reply from an abandoned session could
+still be taken as a live one. Closing that means a protocol change.

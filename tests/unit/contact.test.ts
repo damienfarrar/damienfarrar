@@ -4,7 +4,7 @@ import { decideContact } from "@/lib/domain/contact";
 const valid = {
   name: "A recruiter",
   email: "someone@example.com",
-  message: "I read the eleven-services case study and have a question.",
+  message: "I read the logon-screen case study and have a question.",
   company: "",
 };
 

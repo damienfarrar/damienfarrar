@@ -5,7 +5,7 @@ import { readingTimeMinutes, sortProjects } from "@/lib/domain/projects";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Case studies in full-stack engineering.",
+  description: "Case studies in software architecture and delivery.",
 };
 
 export default function ProjectsPage() {
@@ -21,7 +21,7 @@ export default function ProjectsPage() {
       </h1>
       <p className="text-muted-foreground mt-5 max-w-xl text-lg">
         Each one written as problem &rarr; approach &rarr; decisions &rarr;
-        outcome. Placeholder prose for now; the structure is live.
+        outcome.
       </p>
 
       <ul className="border-border mt-12 grid grid-cols-1 gap-3 border-t pt-6 lg:grid-cols-3">

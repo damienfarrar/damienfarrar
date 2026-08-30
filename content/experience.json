@@ -5,7 +5,7 @@
       "title": "Lead Architect",
       "start": "2026-03",
       "end": null,
-      "summary": "Lead Architect for a hardware-enforced identity platform used by organisations that can't afford to be wrong — government, defence, healthcare, finance, critical infrastructure. Cryptographic verification at person, device, and platform level, anchored in hardware rather than copyable software credentials.",
+      "summary": "Lead Architect on a hardware-backed identity platform for high-assurance sectors: government, defence, healthcare, finance, critical infrastructure. Verification happens in hardware, at the person, the device and the platform.",
       "highlights": [],
       "tech": ["c#", ".net", "typescript", "angular", "wpf", "sql", "aws"]
     },
@@ -14,8 +14,14 @@
       "title": "Lead Architect",
       "start": "2018-04",
       "end": "2026-03",
-      "summary": "Lead Architect for a hardware-anchored identity and authentication platform — nearly eight years of system design across secure devices, cloud services, and enterprise integration.",
-      "highlights": [],
+      "summary": "Lead Architect on a hardware-anchored identity and authentication platform. Nearly eight years across the token, the services behind it, and the integrations into customer environments.",
+      "highlights": [
+        "Built and led the platform from its first commit: a C# codebase across the Windows logon integration, a browser SDK, and a remote-desktop client.",
+        "Built a compile-time white-labelling system that ships one product under multiple customer brands from a single source tree. Per-brand COM identity with shared installer upgrade codes, so a rebranded build installs over its predecessor instead of beside it.",
+        "Rebuilt the Windows logon integration from a blocking call into a cancellable state machine. Worst-case wait on a wrong card went from about two minutes to about 45 seconds; cancel went from impossible to sub-second.",
+        "Cut about 1.4 seconds of fixed cost from every sign-in by instrumenting the path first, then removing a duplicated directory lookup and a synchronisation wait that was firing on every attempt.",
+        "Traced an intermittent contactless-auth failure to the device side by ruling out every host-side cause with controlled tests, and narrowed an open-ended vendor request to one specific fix."
+      ],
       "tech": ["c#", ".net", "typescript", "angular", "wpf", "sql", "aws"]
     },
     {
@@ -23,7 +29,7 @@
       "title": "Lead Developer and Architect",
       "start": "2017-05",
       "end": "2018-04",
-      "summary": "Lead Developer and Architect for a Windows video-transcoding and DIT tool — ProRes on Windows, H.265/HEVC, and high-volume media ingestion for editors, colourists, and post-production.",
+      "summary": "Lead Developer and Architect on a Windows video-transcoding and DIT tool: ProRes on Windows, H.265, and bulk media ingestion for editors, colourists and post houses.",
       "highlights": [],
       "tech": ["c#", ".net", "ffmpeg"]
     },
@@ -32,9 +38,9 @@
       "title": "Lead Applications Developer & Integration Architect",
       "start": "2008-10",
       "end": "2018-04",
-      "summary": "Nearly ten years at an advertising-content delivery company, moving from computational programming and design through UX team lead to leading applications development and integration architecture. C#/.NET, media processing, and broadcaster integrations across AU/NZ.",
+      "summary": "Nearly ten years at an advertising-content delivery company. Started in computational programming and design, moved to UX team lead, then led applications development and integration architecture. C#/.NET, media processing, and broadcaster integrations across Australia and New Zealand.",
       "highlights": [
-        "Computational Programmer and Designer (2008–2012), Team Lead — UX / C# Developer (2012–2014), then Lead Applications Developer & Integration Architect (2014–2018)."
+        "Progressed from computational programmer and designer (2008) to UX team lead (2012) to lead applications developer and integration architect (2014)."
       ],
       "tech": ["c#", ".net", "sql"]
     },
@@ -43,7 +49,7 @@
       "title": "Flash Developer",
       "start": "2006-01",
       "end": "2008-09",
-      "summary": "Flash / ActionScript developer building game content and front-ends at a gaming-technology company.",
+      "summary": "Flash and ActionScript developer building game content and front-ends at a gaming-technology company.",
       "highlights": [],
       "tech": ["actionscript", "flash"]
     }

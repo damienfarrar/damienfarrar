@@ -15,10 +15,15 @@ test("home shows the console and routes to a case study", async ({ page }) => {
   await page.getByRole("link", { name: /read the case studies/i }).click();
   await expect(page).toHaveURL(/\/projects$/);
 
-  await page.getByRole("link", { name: /eleven services, one bill/i }).click();
-  await expect(page).toHaveURL(/\/projects\/eleven-services-one-bill$/);
+  await page
+    .getByRole("link", { name: /unblocking the logon screen/i })
+    .click();
+  await expect(page).toHaveURL(/\/projects\/unblocking-the-logon-screen$/);
   await expect(
-    page.getByRole("heading", { level: 1, name: /eleven services/i }),
+    page.getByRole("heading", {
+      level: 1,
+      name: /unblocking the logon screen/i,
+    }),
   ).toBeVisible();
 });
 

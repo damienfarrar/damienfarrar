@@ -1,0 +1,76 @@
+---
+title: White-labelling at compile time
+slug: white-labelling-at-compile-time
+summary: One Windows product, several customer brands, one source tree. The brand reaches into assembly metadata, installers, registry paths and the COM class registered with Windows, and all of it is set at build time.
+role: Lead Architect
+dates: "2026"
+stack:
+  - c#
+  - msbuild
+  - wix
+  - powershell
+featured: true
+order: 2
+---
+
+> On a Windows product you install, the brand is spread across a lot of places:
+> assembly metadata, installer names and upgrade codes, registry paths, log
+> folders, the event log source, default hosts, and the COM class registered
+> with the OS.
+
+## Problem
+
+We ship one product under several customer brands, all from one source tree.
+It's more than swapping strings. Some brands are rebrands, so the new build has
+to install over the old one instead of alongside it. And some brands have
+variants that differ only in which backend hosts they can reach. An internal or
+test host getting into a customer build would be a real problem.
+
+## Approach
+
+There's one canonical list of brand values in the shared library. Each
+downstream repo has a small local manifest for its own settings and imports the
+canonical values by relative path, so nothing is duplicated and the values
+can't drift apart. At build time the selected brand's values are written into
+generated source and compiled in. Selecting a brand is a single build property.
+An unknown brand fails the build with a message saying where it looked for the
+manifest.
+
+## Key decisions
+
+- Only customer-facing names get rebranded. Namespaces, class names and project
+  names stay put. A real per-brand source tree would give you several codebases
+  that drift apart. The downside is that the internal names don't match the
+  product a new hire installs, and that's a cost worth being upfront about.
+- Each brand gets its own COM identity but shares an installer upgrade code
+  with the brand it replaces. That's what makes a rebrand install over its
+  predecessor: matching upgrade codes tell Windows Installer to remove the old
+  product and install the new one, while the separate COM IDs keep the two
+  distinct to the OS. Unique upgrade codes would install both side by side; a
+  shared COM ID would collide. There's a comment in the manifest telling the
+  next person not to change these to unique values.
+- Variants inherit their identity and override one thing only. A variant
+  imports its base manifest and changes just the host list. It never redeclares
+  an identity value, because that inheritance is what keeps all of a brand's
+  variants able to upgrade over each other. Internal and test hosts only exist
+  in an internal variant, so they can't reach a customer build.
+- Cross-repo consistency is enforced by a check, not a convention. The shared
+  repo can't see which repos consume it, so each consumer runs a check that
+  fails its build if a brand exists upstream without a local manifest. It's a
+  script that exits non-zero, not a monorepo or a registry service.
+- Everything happens at build time. One binary per brand. Runtime branding
+  would mean shipping every brand's assets to every customer and adding
+  configuration that can be set wrong. The tradeoff is a build matrix and a set
+  of installers to sign.
+
+## Outcome
+
+- Several brands build from one tree, including a rebrand that installs over its
+  predecessor and an internal variant that can't reach a customer build.
+- A brand-matrix build runs through the canonical list and produces per-brand
+  installers into one folder.
+- The consistency check runs first in every branded build, and can be run on
+  its own as an early gate.
+- A full rebrand of the product line touched every assembly, installer,
+  registry path, icon and string, and went out as a configuration change plus
+  new assets. No code change.
