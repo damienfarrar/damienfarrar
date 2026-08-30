@@ -9,16 +9,58 @@ type FormState =
   | { status: "sent" }
   | { status: "error"; message: string };
 
+type Field = "name" | "email" | "message";
+type FieldErrors = Partial<Record<Field, string>>;
+
 const inputClasses =
-  "border-input bg-card text-foreground placeholder:text-muted-foreground w-full border px-3 py-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
+  "border-input bg-card text-foreground placeholder:text-muted-foreground w-full border px-3 py-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive";
+
+// Mirrors contactSubmissionSchema in lib/domain/contact.ts. The server stays
+// the authority; this just saves the round trip and names the field.
+function validate(values: Record<Field, string>): FieldErrors {
+  const errors: FieldErrors = {};
+  const name = values.name.trim();
+  const message = values.message.trim();
+
+  if (!name) errors.name = "Add your name.";
+  else if (name.length > 100) errors.name = "That's over 100 characters.";
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim()))
+    errors.email = "Enter a valid email address.";
+
+  if (message.length < 10)
+    errors.message = "A few more words — at least 10 characters.";
+  else if (message.length > 5000)
+    errors.message = "That's over the 5,000-character limit.";
+
+  return errors;
+}
 
 export function ContactForm() {
   const [state, setState] = useState<FormState>({ status: "idle" });
+  const [errors, setErrors] = useState<FieldErrors>({});
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
+    const values: Record<Field, string> = {
+      name: String(data.name ?? ""),
+      email: String(data.email ?? ""),
+      message: String(data.message ?? ""),
+    };
+
+    const fieldErrors = validate(values);
+    if (Object.keys(fieldErrors).length > 0) {
+      setErrors(fieldErrors);
+      const first = (["name", "email", "message"] as const).find(
+        (f) => fieldErrors[f],
+      );
+      if (first) form.querySelector<HTMLElement>(`#contact-${first}`)?.focus();
+      return;
+    }
+
+    setErrors({});
     setState({ status: "sending" });
     try {
       const res = await fetch("/api/contact", {
@@ -64,6 +106,9 @@ export function ContactForm() {
     );
   }
 
+  const clear = (field: Field) => () =>
+    setErrors((e) => (e[field] ? { ...e, [field]: undefined } : e));
+
   return (
     <form onSubmit={handleSubmit} className="max-w-xl space-y-5" noValidate>
       <div>
@@ -79,8 +124,19 @@ export function ContactForm() {
           required
           maxLength={100}
           autoComplete="name"
+          aria-invalid={errors.name ? true : undefined}
+          aria-describedby={errors.name ? "contact-name-error" : undefined}
+          onInput={clear("name")}
           className={inputClasses}
         />
+        {errors.name && (
+          <p
+            id="contact-name-error"
+            className="text-destructive mt-1.5 text-xs"
+          >
+            {errors.name}
+          </p>
+        )}
       </div>
       <div>
         <label
@@ -96,8 +152,19 @@ export function ContactForm() {
           required
           maxLength={200}
           autoComplete="email"
+          aria-invalid={errors.email ? true : undefined}
+          aria-describedby={errors.email ? "contact-email-error" : undefined}
+          onInput={clear("email")}
           className={inputClasses}
         />
+        {errors.email && (
+          <p
+            id="contact-email-error"
+            className="text-destructive mt-1.5 text-xs"
+          >
+            {errors.email}
+          </p>
+        )}
       </div>
       <div>
         <label
@@ -113,8 +180,21 @@ export function ContactForm() {
           minLength={10}
           maxLength={5000}
           rows={6}
+          aria-invalid={errors.message ? true : undefined}
+          aria-describedby={
+            errors.message ? "contact-message-error" : undefined
+          }
+          onInput={clear("message")}
           className={inputClasses}
         />
+        {errors.message && (
+          <p
+            id="contact-message-error"
+            className="text-destructive mt-1.5 text-xs"
+          >
+            {errors.message}
+          </p>
+        )}
       </div>
 
       {/* Honeypot: humans never see it; bots autofill it. */}

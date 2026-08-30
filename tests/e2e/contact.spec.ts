@@ -15,15 +15,28 @@ test("a valid submission reports success", async ({ page }) => {
   await expect(page.getByText(/message sent/i)).toBeVisible();
 });
 
-test("an invalid submission shows the generic error", async ({ page }) => {
+test("a too-short message is caught client-side, before any request", async ({
+  page,
+}) => {
   await page.getByLabel("Name").fill("Short Message");
   await page.getByLabel("Email").fill("short@example.com");
   await page.getByLabel("Message").fill("hi");
   await page.getByRole("button", { name: /send message/i }).click();
-  // Next's route announcer is also role=alert — filter to ours.
-  await expect(
-    page.getByRole("alert").filter({ hasText: /check the form/i }),
-  ).toBeVisible();
+  await expect(page.getByText(/at least 10 characters/i)).toBeVisible();
+  await expect(page.getByLabel("Message")).toHaveAttribute(
+    "aria-invalid",
+    "true",
+  );
+});
+
+test("a malformed email is caught client-side", async ({ page }) => {
+  await page.getByLabel("Name").fill("Bad Email");
+  await page.getByLabel("Email").fill("not-an-email");
+  await page
+    .getByLabel("Message")
+    .fill("This message is long enough to pass validation.");
+  await page.getByRole("button", { name: /send message/i }).click();
+  await expect(page.getByText(/valid email address/i)).toBeVisible();
 });
 
 test("a honeypot submission sees fake success (bots learn nothing)", async ({
