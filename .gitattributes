@@ -1,0 +1,16 @@
+# Normalise line endings to LF in the repo; check out however the OS prefers.
+# Keeps Prettier (LF) and CI happy regardless of a contributor's core.autocrlf.
+* text=auto eol=lf
+
+# Binary assets — never touch.
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
