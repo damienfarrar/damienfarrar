@@ -35,7 +35,8 @@ UI (server + client components)
 
 UI never touches data directly — everything goes through a framework-agnostic
 service layer, so the content source could swap from local MDX to a DB/CMS
-without touching components. Details in `docs/ARCHITECTURE.md` (coming in Phase 3).
+without touching components. The boundaries are spelled out in the
+[ADRs](docs/adr/).
 
 ## Stack
 
@@ -60,13 +61,19 @@ Live features (contact email, rate limiting, view counters, GitHub tiles)
 are optional by environment — see [.env.example](.env.example). Without
 keys, each degrades gracefully and the site still runs.
 
+## Reuse
+
+This repo is public so it can be read as a work sample. There's no licence:
+the code is here to learn from, and the content, copy, and visual identity are
+mine. If you want to reuse a specific piece, [ask](https://damienfarrar.com/contact).
+
 ## Status
 
-**Phases 1–5 done** — scaffold, design system ("ops console" direction),
-typed content pipeline, pages + SEO, and the contact/live-data layer.
-**Phase 6 (quality pass + launch) remains**: e2e + axe, Lighthouse budgets
-in CI, real content, secrets-history scan, DNS cutover. Build phases and
-estimates in the [plan, §7](docs/REFRESH_PLAN.md#7-build-phases). The
-previous Angular 7 implementation lives in git history (`development`
-branch) — [ADR-0001](docs/adr/0001-rebuild-not-upgrade.md) explains why it
-was replaced rather than upgraded.
+Live at **[damienfarrar.com](https://damienfarrar.com)**. Built in phases —
+scaffold, design system, typed content pipeline, pages + SEO, contact and
+live-data layer, then a quality pass (e2e + axe, Lighthouse budgets in CI) and
+the Route 53 → Vercel cutover. The plan is in
+[docs/REFRESH_PLAN.md](docs/REFRESH_PLAN.md); the build itself is the commit
+history. The previous Angular 7 site is the root of this branch —
+[ADR-0001](docs/adr/0001-rebuild-not-upgrade.md) explains why it was rebuilt
+rather than upgraded.
