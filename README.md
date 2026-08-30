@@ -41,7 +41,7 @@ without touching components. The boundaries are spelled out in the
 ## Stack
 
 - **Next.js (App Router) + TypeScript** — [ADR-0002](docs/adr/0002-single-app-not-separate-service.md)
-- **Tailwind CSS v4 + shadcn/ui**
+- **Tailwind CSS v4 + shadcn/ui**; visual system in [ADR-0007](docs/adr/0007-visual-system-dispatch.md)
 - **Typed MDX/JSON content, Zod-validated** — [ADR-0004](docs/adr/0004-mdx-content-not-cms.md)
 - **Upstash Redis (KV)** for rate limiting + view counters — [ADR-0005](docs/adr/0005-kv-live-data-layer.md)
 - **Resend** for contact email

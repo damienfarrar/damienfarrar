@@ -1,13 +1,16 @@
 import { ImageResponse } from "next/og";
 import { getProfile } from "@/lib/content/repo";
 import { yearsInProduction } from "@/lib/domain/experience";
+import { ogFonts } from "@/lib/og/fonts";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt = "Damien Farrar — full-stack engineer & architect, Melbourne";
 
+const mono = { fontFamily: "IBM Plex Mono" } as const;
+
 // Set in the Dispatch system: neutral graphite ground, amber accent, keylines.
-export default function Image() {
+export default async function Image() {
   const years = yearsInProduction(getProfile().careerStartYear);
   return new ImageResponse(
     <div
@@ -20,15 +23,16 @@ export default function Image() {
         background: "#141414",
         color: "#e9e9e9",
         padding: 72,
-        fontFamily: "sans-serif",
+        fontFamily: "IBM Plex Sans",
       }}
     >
       <div
         style={{
+          ...mono,
           display: "flex",
           justifyContent: "space-between",
-          fontSize: 24,
-          letterSpacing: 4,
+          fontSize: 22,
+          letterSpacing: 3,
           color: "#9a9a9c",
         }}
       >
@@ -50,11 +54,12 @@ export default function Image() {
       </div>
       <div
         style={{
+          ...mono,
           display: "flex",
           justifyContent: "space-between",
           borderTop: "2px solid #38383a",
           paddingTop: 24,
-          fontSize: 26,
+          fontSize: 22,
           color: "#9a9a9c",
         }}
       >
@@ -62,6 +67,6 @@ export default function Image() {
         <span>source public · decisions recorded</span>
       </div>
     </div>,
-    size,
+    { ...size, fonts: await ogFonts() },
   );
 }
