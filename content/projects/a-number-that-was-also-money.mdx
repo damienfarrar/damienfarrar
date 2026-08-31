@@ -1,0 +1,99 @@
+---
+title: A number that was also money
+slug: a-number-that-was-also-money
+summary: Storage over an account's plan was billed by the gigabyte, so a usage figure in DynamoDB had to stay in step with a metered quantity on a Stripe subscription, updated on every upload and delete, with no transaction spanning the two. Deriving the charge from the counter, and leaning on the billing cycle so the two only had to agree by the time the invoice was cut.
+role: Lead Developer and Architect
+dates: "2017"
+stack:
+  - dynamodb
+  - aws lambda
+  - node.js
+  - stripe
+featured: true
+order: 4
+---
+
+> Storage past what a plan included was charged per gigabyte. Every upload and
+> every delete could move an account across that line, which meant every upload
+> and delete had to change a number in DynamoDB and a quantity on a Stripe
+> subscription. Nothing could wrap the two together.
+
+## Problem
+
+Cruncher was two products: a Windows app that transcoded footage locally, and a
+website that stored and organised it. This is about the website's billing.
+
+Plans came with an amount of included storage. Go over it and the rest was
+metered, billed by the gigabyte on the same Stripe subscription as the plan
+itself. So an account's used-storage wasn't only a figure on a page. Past a
+point it was money, and it moved on every upload and every delete.
+
+The number lived in DynamoDB, picked over a relational database on cost: no
+joins, and the tables shaped around the exact reads the site made. A single
+upload already fanned out across several of them, the file record, the folder,
+shares, team permissions, the byte counter. On top of that, if the new total
+crossed into overage, the Stripe subscription's metered quantity had to move
+too, a call to a third party part-way through the request that could fail or
+time out after the DynamoDB writes had already committed.
+
+And it raced. Two uploads finishing at the same moment could both read the
+current usage, both compute the same overage, and both push it to Stripe. The
+quantity on the subscription would be wrong, in a direction someone paid for.
+
+## Approach
+
+The byte counter became a single atomic increment: `UpdateItem` with an `ADD`,
+which returns the new total, so an upload came back with the authoritative
+figure and no second read.
+
+The Stripe update was derived from that returned value, never computed on its
+own. Overage is `used` minus `included`, floored at zero; feed it the number
+DynamoDB just handed back and two racing uploads can't disagree about it. A
+retry that applied the same increment twice was still possible, and like any
+other drift it was left for the reconciliation pass to catch.
+
+Then the part that actually made it work. I stopped trying to keep DynamoDB and
+Stripe in lockstep and looked at when they genuinely had to agree. Stripe bills
+on a cycle. The quantity on the subscription only has to be right at the moment
+the invoice is cut. Between those moments it can drift, as long as something
+corrects it first.
+
+So the reconciliation job took on the billing side. It was already there,
+recomputing used-storage from the actual files and handling plan expiry and
+renewal. Now each run also reset the Stripe quantity to match what the files
+added up to, and logged the correction. It runs far more often than Stripe
+bills, so drift from a failed call or a race gets squared long before it reaches
+an invoice.
+
+## Key decisions
+
+- **The file list is the only truth.** The byte counter is a cache of it; the
+  Stripe quantity is a cache of the counter. Both rebuild from the files, and
+  the reconciliation job does exactly that.
+- **Derive the charge from the counter's post-write value.** DynamoDB's `ADD`
+  returns the new total. Anything that reads usage separately to work out a
+  charge has a race in it.
+- **Find the invariant that matters.** It isn't "DynamoDB and Stripe always
+  agree", which is a distributed transaction nobody was going to build here.
+  It's "Stripe is right when it bills". That is a much weaker thing to promise,
+  and a scheduled pass can promise it.
+- **Reconcile more often than you bill.** The safety net only works if it sweeps
+  between invoices, so its cadence came from the billing period, not from how
+  fast drift showed up.
+
+## Outcome
+
+Invoices were right. Not because the two systems never diverged, they did,
+whenever a Stripe call failed after the DynamoDB write or two uploads raced, but
+because the divergence was found and corrected on a schedule that ran inside the
+billing cycle.
+
+What I got wrong at first was treating it as a write-time consistency problem,
+to be solved with careful ordering and retries around the Stripe call. That
+shrank the window without closing it. What closed it was seeing that the window
+didn't need to close, only to be swept before the month ended.
+
+Rebuilt now it is a different shape. Stripe has event-based usage records,
+DynamoDB has transactions, idempotency keys are standard on both. The
+reconciliation job would probably still exist. Money that depends on two systems
+agreeing wants a scheduled check regardless of what the write path promises.

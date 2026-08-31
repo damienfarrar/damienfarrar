@@ -272,10 +272,11 @@ is a possible future ADR if the site grows.
     "Dispatch" (true-neutral graphite, IBM Plex, amber) — [ADR-0007](adr/0007-visual-system-dispatch.md).
   - **`ARCHITECTURE.md` dropped** — the layering is covered by the README diagram
     plus [ADRs](adr/); a separate file was ceremony (principle 2).
-  - **Case studies**: three published, all systems/platform work (OS integration,
-    build tooling, device identity). None is the cloud-native piece §8 called for
-    — cloud depth currently sits in `/experience`; a 4th case study is planned.
-    See the [ADR-0003](adr/0003-host-on-vercel-not-aws-azure.md) note.
+  - **Case studies**: four published. Three are systems/platform work (OS
+    integration, build tooling, device identity); the fourth ("A number that was
+    also money") is the cloud-native piece §8 called for — DynamoDB/Stripe
+    consistency on a serverless backend. Reconstructed from memory and
+    infrastructure after the original source was lost.
   - **Terraform state** (§10 open q.) — kept local, gitignored; a remote backend
     was over-engineering for a single low-churn zone.
   - **Analytics** (§10 open q.) — none; deferred until there's a reason.
