@@ -29,9 +29,9 @@
       "title": "Lead Developer and Architect",
       "start": "2017-05",
       "end": "2018-04",
-      "summary": "Lead Developer and Architect on a Windows video-transcoding and DIT tool: ProRes on Windows, H.265, and bulk media ingestion for editors, colourists and post houses.",
+      "summary": "Lead Developer and Architect on a video-transcoding and DIT tool for editors, colourists and post houses: a Windows client for ProRes-on-Windows, H.265 and bulk ingestion, backed by an AWS platform for accounts, cloud storage, transcoding and team sharing.",
       "highlights": [],
-      "tech": ["c#", ".net", "ffmpeg"]
+      "tech": ["c#", ".net", "aws", "ffmpeg"]
     },
     {
       "company": "Dubsat",

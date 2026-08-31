@@ -1,8 +1,12 @@
 # damienfarrar.com — Refresh Plan
 
-> Status: **v3 — hosting decision resolved**
+> Status: **Shipped** — live at [damienfarrar.com](https://damienfarrar.com) since 2026-08-30
 > Author: Damien Farrar (with Claude)
-> Date: 2026-07-03
+> Date: 2026-07-03 (last revised 2026-08-31)
+
+This is the plan the rebuild was executed against, kept as written. What changed
+in practice is recorded in the revision history (§12); the build itself is the
+commit history.
 
 ## 1. Purpose & goals
 
@@ -262,3 +266,18 @@ is a possible future ADR if the site grows.
   recorded as an ADR; DNS-as-code added (Terraform, Route 53, `/infra/dns`);
   old API confirmed reachable (data migration unblocked); cloud-depth signal
   moved into case-study content.
+- **v4** (2026-08-31) — **shipped 2026-08-30**, repo public 2026-08-31. What
+  diverged from the plan:
+  - **Design** reworked mid-build from the first "ops console" direction to
+    "Dispatch" (true-neutral graphite, IBM Plex, amber) — [ADR-0007](adr/0007-visual-system-dispatch.md).
+  - **`ARCHITECTURE.md` dropped** — the layering is covered by the README diagram
+    plus [ADRs](adr/); a separate file was ceremony (principle 2).
+  - **Case studies**: three published, all systems/platform work (OS integration,
+    build tooling, device identity). None is the cloud-native piece §8 called for
+    — cloud depth currently sits in `/experience`; a 4th case study is planned.
+    See the [ADR-0003](adr/0003-host-on-vercel-not-aws-azure.md) note.
+  - **Terraform state** (§10 open q.) — kept local, gitignored; a remote backend
+    was over-engineering for a single low-churn zone.
+  - **Analytics** (§10 open q.) — none; deferred until there's a reason.
+  - **Old AWS estate** fully decommissioned post-cutover (not just the portfolio
+    API — the whole account was cleared to the Route 53 zone).

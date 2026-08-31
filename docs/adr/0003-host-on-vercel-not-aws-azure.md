@@ -23,7 +23,11 @@ The cloud-depth signal is carried instead by:
 1. **This ADR** — knowing how to run it on AWS and choosing not to, with reasons.
 2. **DNS-as-code** — the Route 53 zone is managed by Terraform in `/infra/dns`
    (records must change at cutover anyway: Vercel pointing, Resend SPF/DKIM).
-3. **Case-study content** — at least one featured project is cloud-native/AWS-heavy.
+3. **Career history** — the AWS-heavy work (a serverless media platform at
+   Cruncher; identity infrastructure at Keyek / VeroGuard) sits in `/experience`.
+   The case studies published so far go deep on systems and platform work — OS
+   integration, build tooling, device identity — rather than cloud specifically;
+   a cloud-native case study is planned, not yet written.
 
 ## Consequences
 
