@@ -28,10 +28,12 @@ Keep the concept, rework the palette and type. Internal name: "Dispatch".
   headings to add a second register; it was reverted because legibility at real
   reading sizes mattered more than the contrast. Headings are sentence case,
   not uppercase display type.
-- **Accent:** amber kept (`#ffb454` / `#a35b00`). It was the one deliberate
-  choice in the original palette — it sidesteps the reflex blue/violet/green
-  and it isn't a terminal-green cliché. Status green moved off the Android
-  value to a plain pine.
+- **Accent:** amber kept (`#ffb454` dark). It was the one deliberate choice in
+  the original palette — it sidesteps the reflex blue/violet/green and it isn't
+  a terminal-green cliché. The light-mode value was later pulled toward burnt
+  orange (`#a8480a`): at the original hue, dark enough to pass AA on the light
+  ground meant a muddy brown at label sizes. Status green moved off the Android
+  value to a plain green (`#14743a` light, `#5aa17c` dark).
 - **Unchanged:** `--radius: 0`, flat fills, no gradients, no decorative
   shadows, and the registration-mark logo. That stance is the identity; the
   palette stays quiet behind it.
