@@ -1,0 +1,23 @@
+# Monthly, grouped. The point is a small number of real, reviewable batches —
+# per-package weekly PRs turn the commit log into noise, which defeats the
+# reason for keeping the log public.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    groups:
+      # One PR for everything low-risk; CI is the gate that says it's safe.
+      minor-and-patch:
+        update-types: [minor, patch]
+    # Majors stay unbatched — each one deserves its own read of the changelog.
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
