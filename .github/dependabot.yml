@@ -13,6 +13,29 @@ updates:
       minor-and-patch:
         update-types: [minor, patch]
     # Majors stay unbatched — each one deserves its own read of the changelog.
+    ignore:
+      # Blocked upstream, not by this codebase. `next build` already compiles
+      # clean under TS 7, but typescript-eslint refuses to load against it, and
+      # typescript-eslint#10940 is blocked rather than in progress: ESLint has
+      # no async-parser support and tsgo is "many months away from stable",
+      # with no timeline. Revisit when that issue moves; minors still flow.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+
+      # eslint-config-next bundles an eslint-plugin-react that calls
+      # context.getFilename(), removed in ESLint 10. Retested on Next 16.3.3 —
+      # still fails. Forcing a newer plugin through `overrides` would work but
+      # leaves a stale shadow once Next ships its own fix. Revisit when
+      # eslint-config-next supports ESLint 10; minors still flow.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+
+      # Tracks the Node runtime deliberately: Vercel runs 24.x, CI pins 24
+      # and package.json declares engines.node >=24. Types ahead of the runtime
+      # typecheck APIs that do not exist in production, so this moves by hand
+      # when the runtime major moves — never on its own.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
