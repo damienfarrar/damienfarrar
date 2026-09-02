@@ -27,8 +27,11 @@ CI writes measurements to the existing Upstash instance (ADR-0005) under a
 `metrics:*` namespace; the app reads them and never writes them.
 
 - `scripts/publish-metrics.mjs` runs as a step in the `lighthouse` job, reads
-  LHCI's representative (median) run from `.lighthouseci/manifest.json`, and
-  sets `metrics:lighthouse`.
+  the per-run `.lighthouseci/lhr-*.json` files LHCI leaves behind, takes the
+  median score per category across the home-page runs, and sets
+  `metrics:lighthouse`. (A `manifest.json` would be simpler to read, but LHCI
+  only writes one under `upload --target=filesystem`; this project uploads to
+  temporary-public-storage.)
 - The workflow gained a weekly `schedule`, so every gate re-runs and every
   published measurement refreshes without a commit.
 - `lib/kv/metrics.ts` validates what comes back with Zod and returns `null`
