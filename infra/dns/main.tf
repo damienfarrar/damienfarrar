@@ -71,6 +71,24 @@ resource "aws_route53_record" "resend" {
   records = [each.value.value]
 }
 
+# --- Google Workspace (outbound mail auth) ------------------------------
+# Inbound MX pre-dates this config and is left alone (see README). SPF and
+# DKIM for mail sent *from* Workspace never made it over from the old
+# registrar DNS at cutover — added here so outbound mail authenticates
+# against the _dmarc policy above. Values from the Workspace admin console
+# (Apps > Google Workspace > Gmail > Authenticate email), passed in the
+# same value-free way as the Resend records.
+
+resource "aws_route53_record" "google_workspace" {
+  for_each = { for r in var.google_workspace_records : "${r.type}-${r.name}" => r }
+
+  zone_id = data.aws_route53_zone.main.zone_id
+  name    = each.value.name
+  type    = each.value.type
+  ttl     = 300
+  records = [each.value.value]
+}
+
 # Legacy api.damienfarrar.com records are intentionally absent: the old
 # backend is decommissioned after cutover (plan §9). Removing them from
 # state/zone is part of the launch checklist, not this file.

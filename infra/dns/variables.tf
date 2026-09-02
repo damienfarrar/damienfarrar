@@ -13,3 +13,13 @@ variable "resend_records" {
   }))
   default = []
 }
+
+variable "google_workspace_records" {
+  description = "Outbound-mail auth records for Google Workspace: apex SPF TXT and the google._domainkey DKIM TXT, from the Workspace admin console. Inbound MX is separate, pre-existing, and left untouched by this config. Fully-qualified names. Empty until filled in."
+  type = list(object({
+    name  = string
+    type  = string
+    value = string
+  }))
+  default = []
+}
