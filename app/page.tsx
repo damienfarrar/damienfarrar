@@ -2,17 +2,19 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { getAllProjects, getProfile } from "@/lib/content/repo";
 import { yearsInProduction } from "@/lib/domain/experience";
+import { describeRunAge } from "@/lib/domain/activity";
 import {
-  getCiStatus,
+  getCiRun,
   getCommitActivity,
   getLatestCommit,
 } from "@/lib/github/activity";
+import { getLighthouseMetric } from "@/lib/kv/metrics";
 import { getTotalViews } from "@/lib/kv/views";
 import { cn } from "@/lib/utils";
 
-// The self-report panel: live tiles (GitHub, KV) hide themselves when their
-// source is unreachable or unconfigured — no error states, no fake numbers.
-// Static tiles state config and targets, not measurements.
+// The self-report panel: every measured tile (GitHub, KV) hides itself when
+// its source is unreachable or unconfigured — no error states, no fake
+// numbers. The one static tile states configuration, not measurement.
 export const revalidate = 3600;
 
 function TileLabel({ children }: { children: React.ReactNode }) {
@@ -34,12 +36,21 @@ function TileSub({ children }: { children: React.ReactNode }) {
 export default async function Home() {
   const years = yearsInProduction(getProfile().careerStartYear);
   const slugs = getAllProjects().map((project) => project.slug);
-  const [activity, latestCommit, ciStatus, totalReads] = await Promise.all([
-    getCommitActivity(),
-    getLatestCommit(),
-    getCiStatus(),
-    getTotalViews(slugs),
-  ]);
+  const [activity, latestCommit, ciRun, totalReads, lighthouse] =
+    await Promise.all([
+      getCommitActivity(),
+      getLatestCommit(),
+      getCiRun(),
+      getTotalViews(slugs),
+      getLighthouseMetric(),
+    ]);
+
+  // Resolved at render, so the age is at most one revalidation window behind —
+  // invisible at the day granularity the tile shows.
+  const now = new Date();
+  const ciAge = ciRun && describeRunAge(ciRun.completedAt, now);
+  const lighthouseAge =
+    lighthouse && describeRunAge(lighthouse.measuredAt, now);
 
   const maxDay = activity ? Math.max(1, ...activity.perDay) : 1;
 
@@ -55,45 +66,72 @@ export default async function Home() {
       </span>
       <TileSub>v4 &middot; vercel &middot; region syd1</TileSub>
     </>,
-    <>
-      <TileLabel>Lighthouse budgets</TileLabel>
-      <div className="flex gap-7">
-        {(
-          [
-            ["95+", "perf"],
-            ["100", "a11y"],
-            ["100", "seo"],
-          ] as const
-        ).map(([score, label]) => (
-          <span key={label}>
-            <span className="font-heading block text-2xl font-semibold tabular-nums">
-              {score}
-            </span>
-            <small className="font-mono text-muted-foreground text-[0.55rem] tracking-[0.1em] uppercase">
-              {label}
-            </small>
-          </span>
-        ))}
-      </div>
-      <TileSub>targets &middot; asserted in ci, median of 3 runs</TileSub>
-    </>,
   ];
 
-  if (ciStatus !== null) {
+  // Measured, not asserted: the numbers CI last recorded against the deployed
+  // build (ADR-0008). No measurement in KV means no tile — a target dressed up
+  // as a score is the exact thing this tile stopped doing.
+  if (lighthouse !== null) {
+    tiles.push(
+      <>
+        <TileLabel>Lighthouse &middot; measured</TileLabel>
+        <div className="flex gap-7">
+          {(
+            [
+              [lighthouse.performance, "perf"],
+              [lighthouse.accessibility, "a11y"],
+              [lighthouse.seo, "seo"],
+            ] as const
+          ).map(([score, label]) => (
+            <span key={label}>
+              <span className="font-heading block text-2xl font-semibold tabular-nums">
+                {score}
+              </span>
+              <small className="font-mono text-muted-foreground text-[0.55rem] tracking-[0.1em] uppercase">
+                {label}
+              </small>
+            </span>
+          ))}
+        </div>
+        <TileSub>
+          median of 3 runs &middot; {lighthouse.sha}
+          {lighthouseAge ? ` · ${lighthouseAge.label}` : ""}
+        </TileSub>
+      </>,
+    );
+  }
+
+  // A green conclusion only describes *now* while it is recent. The weekly
+  // schedule keeps it recent without commits; if that stops, the tile drops
+  // the green rather than implying a run that never happened.
+  if (ciRun !== null) {
+    const failing = ciRun.conclusion === "failing";
+    const stale = ciAge?.stale ?? false;
     tiles.push(
       <>
         <TileLabel>CI &middot; latest run</TileLabel>
-        <span
-          className={cn(
-            "font-heading text-2xl font-semibold",
-            ciStatus === "passing" ? "text-success" : "text-destructive",
+        <span className="font-heading flex items-baseline gap-2.5 text-2xl font-semibold">
+          <span
+            className={cn(
+              failing
+                ? "text-destructive"
+                : stale
+                  ? "text-muted-foreground"
+                  : "text-success",
+            )}
+          >
+            {failing ? "Failing" : "Passing"}
+          </span>
+          {ciAge && (
+            <span className="font-mono text-muted-foreground text-[0.68rem] font-medium tracking-[0.04em]">
+              {ciAge.label}
+            </span>
           )}
-        >
-          {ciStatus === "passing" ? "Passing" : "Failing"}
         </span>
         <TileSub>
-          github actions &middot; format &middot; lint &middot; tests &middot;
-          build
+          {stale
+            ? "github actions · weekly run overdue"
+            : "github actions · format · lint · tests · build"}
         </TileSub>
       </>,
     );

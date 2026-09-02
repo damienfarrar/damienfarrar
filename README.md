@@ -43,7 +43,9 @@ without touching components. The boundaries are spelled out in the
 - **Next.js (App Router) + TypeScript** — [ADR-0002](docs/adr/0002-single-app-not-separate-service.md)
 - **Tailwind CSS v4 + shadcn/ui**; visual system in [ADR-0007](docs/adr/0007-visual-system-dispatch.md)
 - **Typed MDX/JSON content, Zod-validated** — [ADR-0004](docs/adr/0004-mdx-content-not-cms.md)
-- **Upstash Redis (KV)** for rate limiting + view counters — [ADR-0005](docs/adr/0005-kv-live-data-layer.md)
+- **Upstash Redis (KV)** for rate limiting, view counters, and CI-published
+  measurements — [ADR-0005](docs/adr/0005-kv-live-data-layer.md),
+  [ADR-0008](docs/adr/0008-ci-publishes-measurements.md)
 - **Resend** for contact email
 - **Vercel** hosting, DNS in Route 53 via Terraform — [ADR-0003](docs/adr/0003-host-on-vercel-not-aws-azure.md)
 
@@ -57,7 +59,8 @@ npm run dev       # http://localhost:3000
 Other scripts: `npm run build` · `npm run lint` · `npm run typecheck` ·
 `npm run test` · `npm run format`
 
-Live features (contact email, rate limiting, view counters, GitHub tiles)
+Live features (contact email, rate limiting, view counters, GitHub tiles,
+CI-published Lighthouse scores)
 are optional by environment — see [.env.example](.env.example). Without
 keys, each degrades gracefully and the site still runs.
 

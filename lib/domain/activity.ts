@@ -33,3 +33,35 @@ export function aggregateCommitDays(
 
   return { perDay, total: perDay.reduce((sum, n) => sum + n, 0) };
 }
+
+export interface RunAge {
+  /** Whole days since the run completed, floored, never negative. */
+  days: number;
+  /** Terse console label: "today", "1d ago", "94d ago". */
+  label: string;
+  /** True once the run is too old to describe the current state. */
+  stale: boolean;
+}
+
+/**
+ * How long ago a CI run finished. A green conclusion only says something
+ * about *now* while it is recent — past `staleAfterDays` (two missed weekly
+ * runs) the tile stops presenting it as a live signal.
+ */
+export function describeRunAge(
+  completedAt: string,
+  now: Date,
+  staleAfterDays = 14,
+): RunAge | null {
+  const t = Date.parse(completedAt);
+  if (Number.isNaN(t)) return null;
+  const days = Math.max(
+    0,
+    Math.floor((now.getTime() - t) / (24 * 60 * 60 * 1000)),
+  );
+  return {
+    days,
+    label: days === 0 ? "today" : `${days}d ago`,
+    stale: days >= staleAfterDays,
+  };
+}

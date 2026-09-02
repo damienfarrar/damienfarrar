@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Weekly proof-of-life: re-runs every gate against the current registry and
+  # today's date, so the CI tile on the site stays honest during quiet periods
+  # and dependency bit-rot surfaces without waiting for a commit.
+  schedule:
+    - cron: "17 2 * * 1"
+  workflow_dispatch:
 
 jobs:
   quality:
@@ -87,3 +93,13 @@ jobs:
 
       - name: Lighthouse budgets
         run: npx lhci autorun
+
+      # Publish what this run measured, even when a budget failed — a red
+      # number is exactly when the panel should be showing the real one.
+      # Skipped on pull requests, where fork runs have no secrets.
+      - name: Publish measurements
+        if: ${{ !cancelled() && github.event_name != 'pull_request' }}
+        env:
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: node scripts/publish-metrics.mjs

@@ -68,12 +68,24 @@ export async function getLatestCommit(): Promise<LatestCommit | null> {
   };
 }
 
-export async function getCiStatus(): Promise<"passing" | "failing" | null> {
+export interface CiRun {
+  conclusion: "passing" | "failing";
+  /** ISO timestamp the run finished, for the freshness read on the tile. */
+  completedAt: string;
+}
+
+export async function getCiRun(): Promise<CiRun | null> {
   const data = await ghFetch(
     `/repos/${OWNER}/${REPO}/actions/runs?per_page=1&status=completed`,
   );
-  const run = (data as { workflow_runs?: { conclusion?: string }[] } | null)
-    ?.workflow_runs?.[0];
-  if (!run?.conclusion) return null;
-  return run.conclusion === "success" ? "passing" : "failing";
+  const run = (
+    data as {
+      workflow_runs?: { conclusion?: string; updated_at?: string }[];
+    } | null
+  )?.workflow_runs?.[0];
+  if (!run?.conclusion || typeof run.updated_at !== "string") return null;
+  return {
+    conclusion: run.conclusion === "success" ? "passing" : "failing",
+    completedAt: run.updated_at,
+  };
 }
