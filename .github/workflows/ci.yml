@@ -40,6 +40,15 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Production tree only. The dev tree carries a dozen advisories under
+      # @lhci/cli -> lighthouse -> puppeteer that can only be cleared by
+      # downgrading it to 0.1.0, and a gate that is always red is a gate nobody
+      # reads. Highs only, so a moderate in a transitive dep cannot block a
+      # content fix. Runs last so a failure here still leaves every other
+      # gate's result readable.
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
   # Deterministic by design: no service keys in CI, so email uses the dev
   # stub, KV features hide, and GitHub tiles degrade — tests assert the
   # site works in exactly that state.
