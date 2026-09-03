@@ -282,3 +282,17 @@ is a possible future ADR if the site grows.
   - **Analytics** (§10 open q.) — none; deferred until there's a reason.
   - **Old AWS estate** fully decommissioned post-cutover (not just the portfolio
     API — the whole account was cleared to the Route 53 zone).
+- **v5** (2026-09-03) — post-launch maintenance, recorded because both items
+  contradict the plan as written:
+  - **`featured` removed.** §5 planned "featured projects" on the home page.
+    The home page never shipped a project list — the status panel and
+    positioning carry it, and `/projects` is one click away — but the flag
+    survived in the content schema with all four case studies setting it
+    `true`, alongside a `featuredProjects()` helper that had a unit test and
+    no callers. Removed rather than wired up: with four case studies a
+    featured subset distinguishes nothing (principle 2).
+  - **Production-dependency audit added to CI.** §6 lists the gates as
+    typecheck, lint, tests, build and Lighthouse budgets; the `quality` job now
+    also runs `npm audit --omit=dev --audit-level=high`. Dependabot's alert
+    graph stays quiet on advisories it cannot construct a fix path for, so
+    "no open alerts" never meant the production tree was clean.

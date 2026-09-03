@@ -23,7 +23,7 @@ The division of labour, concretely:
 - **Human:** the refresh plan and its principles; every locked decision in it
   (rebuild-over-upgrade, single app, Vercel, MDX, KV — ADRs 0001–0005); the
   design direction, chosen across seven mockup candidates and two refinement
-  rounds; the career facts and (in progress) the case-study content; review
+  rounds; the career facts and the case-study content; review
   and course-correction throughout — including catching a stale hardcoded
   claim and an entity-rendering bug.
 - **AI (Claude):** implementation of the agreed plan — scaffolding, layout and
