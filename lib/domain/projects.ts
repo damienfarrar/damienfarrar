@@ -8,12 +8,6 @@ export function sortProjects<T extends Pick<Project, "order">>(
   return [...projects].sort((a, b) => a.order - b.order);
 }
 
-export function featuredProjects<T extends Pick<Project, "order" | "featured">>(
-  projects: readonly T[],
-): T[] {
-  return sortProjects(projects.filter((project) => project.featured));
-}
-
 const WORDS_PER_MINUTE = 220;
 
 export function readingTimeMinutes(body: string): number {

@@ -15,7 +15,6 @@ export const projectFrontmatterSchema = z.object({
   dates: z.string().min(1),
   stack: z.array(z.string().min(1)).min(1),
   links: z.record(z.string(), z.url()).default({}),
-  featured: z.boolean().default(false),
   order: z.number().int().nonnegative(),
   cover: z.string().optional(),
 });

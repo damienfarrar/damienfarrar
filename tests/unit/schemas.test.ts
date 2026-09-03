@@ -14,7 +14,6 @@ const validFrontmatter = {
 describe("projectFrontmatterSchema", () => {
   it("accepts a minimal valid frontmatter and applies defaults", () => {
     const parsed = projectFrontmatterSchema.parse(validFrontmatter);
-    expect(parsed.featured).toBe(false);
     expect(parsed.links).toEqual({});
   });
 
