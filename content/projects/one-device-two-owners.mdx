@@ -83,9 +83,9 @@ was the token itself.
 The handover works. The poll loop stays out of the way for as long as a Windows
 ceremony runs and picks up again cleanly afterwards.
 
-The remaining failure was on the token side. We had to show that without
-firmware access, and doing so turned a vague request to the hardware vendor into
-one specific change.
+The remaining failure was in the token itself. We had to characterise it from
+the outside, without firmware access, and the evidence was specific enough to
+pin down exactly what needed to change.
 
 Three earlier attempts to diagnose that failure had been wrong. The write-up
 lists each one and why it was wrong. Mostly it was that the OS event log and our
