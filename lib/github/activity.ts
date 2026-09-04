@@ -76,7 +76,7 @@ export interface CiRun {
 
 export async function getCiRun(): Promise<CiRun | null> {
   const data = await ghFetch(
-    `/repos/${OWNER}/${REPO}/actions/runs?per_page=1&status=completed`,
+    `/repos/${OWNER}/${REPO}/actions/workflows/ci.yml/runs?per_page=1&status=completed`,
   );
   const run = (
     data as {
