@@ -75,8 +75,10 @@ export interface CiRun {
 }
 
 export async function getCiRun(): Promise<CiRun | null> {
+  // main only: PR runs (Dependabot's included) would otherwise flip the tile.
+  // Not event=push — the weekly scheduled run on main is meant to count.
   const data = await ghFetch(
-    `/repos/${OWNER}/${REPO}/actions/workflows/ci.yml/runs?per_page=1&status=completed`,
+    `/repos/${OWNER}/${REPO}/actions/workflows/ci.yml/runs?per_page=1&status=completed&branch=main`,
   );
   const run = (
     data as {
