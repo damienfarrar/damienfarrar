@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { getRedis } from "@/lib/kv/client";
+import { cachedRead } from "@/lib/kv/client";
 
 // Measurements CI publishes about the deployed site (ADR-0008). The write
 // side lives in scripts/publish-metrics.mjs and runs in Actions; the app only
@@ -20,14 +20,11 @@ export const lighthouseMetricSchema = z.object({
 
 export type LighthouseMetric = z.infer<typeof lighthouseMetricSchema>;
 
-export async function getLighthouseMetric(): Promise<LighthouseMetric | null> {
-  const redis = getRedis();
-  if (!redis) return null;
-  try {
+export const getLighthouseMetric = cachedRead(
+  ["kv", "metrics-lighthouse"],
+  async (redis): Promise<LighthouseMetric | null> => {
     const raw = await redis.get<unknown>(LIGHTHOUSE_KEY);
     const parsed = lighthouseMetricSchema.safeParse(raw);
     return parsed.success ? parsed.data : null;
-  } catch {
-    return null;
-  }
-}
+  },
+);
