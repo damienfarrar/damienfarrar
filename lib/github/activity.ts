@@ -12,22 +12,36 @@ const OWNER = "damienfarrar";
 const REPO = "damienfarrar";
 const REVALIDATE_SECONDS = 3600;
 
-function headers(): HeadersInit {
+function headers(token: string | undefined): HeadersInit {
   const base: Record<string, string> = {
     Accept: "application/vnd.github+json",
     "User-Agent": "damienfarrar.com",
   };
-  const token = process.env.GITHUB_TOKEN;
   if (token) base.Authorization = `Bearer ${token}`;
   return base;
 }
 
+function request(path: string, token: string | undefined) {
+  return fetch(`${GITHUB}${path}`, {
+    headers: headers(token),
+    next: { revalidate: REVALIDATE_SECONDS },
+  });
+}
+
 async function ghFetch(path: string): Promise<unknown | null> {
   try {
-    const res = await fetch(`${GITHUB}${path}`, {
-      headers: headers(),
-      next: { revalidate: REVALIDATE_SECONDS },
-    });
+    const token = process.env.GITHUB_TOKEN || undefined;
+    let res = await request(path, token);
+    // An expired or revoked token gets a 401. GitHub doesn't fall back to
+    // anonymous access, so retry without it: everything read here is public.
+    // A dead token then costs rate-limit headroom instead of the tiles.
+    // Next only caches 200s, so the 401 is never served from the Data Cache.
+    if (res.status === 401 && token) {
+      console.warn(
+        "[github] GITHUB_TOKEN rejected (401); retrying unauthenticated. Rotate the token.",
+      );
+      res = await request(path, undefined);
+    }
     if (!res.ok) return null;
     return await res.json();
   } catch {
