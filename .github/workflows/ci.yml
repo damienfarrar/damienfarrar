@@ -40,12 +40,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Production tree only. The dev tree carries a dozen advisories under
-      # @lhci/cli -> lighthouse -> puppeteer that can only be cleared by
-      # downgrading it to 0.1.0, and a gate that is always red is a gate nobody
-      # reads. Highs only, so a moderate in a transitive dep cannot block a
-      # content fix. Runs last so a failure here still leaves every other
-      # gate's result readable.
+      # Production tree only. Dev tooling (shadcn, typescript-eslint, and
+      # before 0.16 @lhci/cli) has carried advisories whose only offered fix
+      # is a downgrade to an old major, and a gate that is always red is a
+      # gate nobody reads. Highs only, so a moderate in a transitive dep
+      # cannot block a content fix. Runs last so a failure here still leaves
+      # every other gate's result readable.
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
 
